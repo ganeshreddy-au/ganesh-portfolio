@@ -39,7 +39,7 @@ npx serve .
 | Command palette (press `Cmd+K` / `Ctrl+K`) | `script.js` → `initCommandPalette()` | Jump to any section, email, or LinkedIn |
 | Typewriter role rotator in the hero | `script.js` → `initTypewriter()` | Cycles Data Engineer / Data Analyst / ML Engineer / Data Scientist |
 | Animated count-up stats (7,000+ TPS etc.) | `script.js` → `initCounters()` | Runs once, when scrolled into view |
-| "Build activity" heatmap | `script.js` → `initHeatmap()` | **Placeholder data**, see below |
+| "Build activity" heatmap | `script.js` → `initHeatmap()` | Live GitHub chart, falls back to placeholder data automatically if it can't load |
 | Scrolling tech-stack ticker | `styles.css` → `.marquee` | Pure CSS animation, pauses on hover |
 | Scroll-triggered fade-ins | `script.js` → `initReveal()` | Uses `IntersectionObserver` |
 | Top scroll-progress bar | `script.js` → `initScrollProgress()` | |
@@ -50,24 +50,17 @@ Everything respects `prefers-reduced-motion`: if that's on in your OS, the
 typewriter, marquee, canvas animation, and scroll reveals all switch to their
 static equivalents instead of animating.
 
-## Making the heatmap real
+## GitHub is wired in
 
-Right now the "Build activity" card is filled with placeholder data (a fixed
-seeded pattern, see `initHeatmap()` in `script.js`) so the page looks complete
-with zero setup. Once you have a public GitHub profile, you can swap it for
-something real. Two easy options, no backend required:
+Your GitHub (`github.com/ganeshreddy-au`) is now live in three places:
 
-1. **Simplest:** replace the `<div class="heatmap-scroll">...</div>` block in
-   `index.html` with an image pointing at a free contribution-graph generator,
-   for example:
-   ```html
-   <img src="https://ghchart.rshah.org/E8A33D/YOUR_GITHUB_USERNAME" alt="GitHub contribution graph">
-   ```
-2. **More control:** keep the current grid markup and JS, but replace the
-   placeholder numbers in `initHeatmap()` with real data fetched from GitHub's
-   public GraphQL API (requires a small serverless function or a build step,
-   since GitHub's API needs an auth token that shouldn't sit in client-side
-   JS).
+1. **Contact section** (`index.html`) — a GitHub link with its own icon, next to email, phone, and LinkedIn.
+2. **Command palette** (`script.js` → the `commands` array inside `initCommandPalette()`) — "Open GitHub" shows up when you press `Cmd+K` / `Ctrl+K`.
+3. **"Build activity" card** (`index.html`, `#heatmapImg`) — pulls your real contribution graph live from `https://ghchart.rshah.org/E8A33D/ganeshreddy-au`, a free, no-auth chart generator, no backend needed. If that image ever fails to load (service down, or no public activity yet), the card automatically falls back to the old placeholder grid instead of showing a broken image (`script.js` → `initHeatmap()`).
+
+**If your GitHub username ever changes**, update it in two spots: the `src` on `#heatmapImg` and the `href` on the GitHub link, both in `index.html`, plus the `Open GitHub` action in `script.js`. Ctrl+F for `ganeshreddy-au` in both files and you'll catch every instance.
+
+**More control later:** the live chart above is a third-party image, not raw data, so you can't restyle its individual squares. If you eventually want the heatmap to match the site's exact colors pixel-for-pixel, that means pulling real numbers from GitHub's GraphQL API into the existing grid markup, which needs a small serverless function or build step (GitHub's API requires an auth token that can't sit in plain client-side JS). Not necessary now, just an option if you want to go further later.
 
 ## Deploying for free
 
@@ -95,8 +88,8 @@ step needed.
 
 A few things worth doing before sending this to recruiters:
 
-- Add your real GitHub profile link once your project repos (fraud detection notebook, etc.) are public. There's a spot for it in the command palette and it's easy to add a nav/contact link too.
-- Swap the placeholder heatmap for the real thing (see above) once that GitHub link exists.
+- [x] GitHub is linked (contact section, command palette, and the live activity chart) — done.
+- Push your fraud detection notebook and payment-switch code to `github.com/ganeshreddy-au` so that "Build activity" card actually has contributions to show.
 - Consider deploying the fraud detection model as a small live demo (Streamlit Community Cloud or Hugging Face Spaces are both free) and linking it from the `FRAUD-ML-01` case study card in `index.html`.
 - Double check the `mailto:` and `tel:` links in the contact section still match your current details.
 
