@@ -1,477 +1,417 @@
 (function () {
   'use strict';
 
+  var root = document.documentElement;
+  var body = document.body;
   var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var finePointer = window.matchMedia('(pointer: fine)').matches;
 
-  document.addEventListener('DOMContentLoaded', function () {
-    initThemeToggle();
-    initGreeting();
-    initTypewriter();
-    initScrollProgress();
-    initReveal();
-    initCounters();
-    initHeatmap();
-    initRoleFilters();
-    initCommandPalette();
-    initCursorRing();
-    initSpotlight();
-    initBackgroundCanvas();
-  });
+  initTheme();
+  initMarquee();
+  initNav();
+  initScrollEffects();
+  initReveal();
+  initCounters();
+  initRoleRotator();
+  initImbalanceGrid();
+  initBars();
+  initCardHover();
+  initMagnetic();
+  initCursor();
+  initCopyEmail();
+  initBackground();
 
-  /* ---------------- Theme toggle ---------------- */
-  function initThemeToggle() {
-    var root = document.documentElement;
-    var btn = document.getElementById('themeToggle');
-    var moon = document.getElementById('themeIconMoon');
-    var sun = document.getElementById('themeIconSun');
+  var year = document.getElementById('year');
+  if (year) year.textContent = new Date().getFullYear();
+
+  /* ---------- Theme (dark by default, remembers choice) ---------- */
+  function initTheme() {
+    var btn = document.getElementById('theme-toggle');
     if (!btn) return;
-
-    function currentIsDark() {
-      var explicit = root.getAttribute('data-theme');
-      if (explicit === 'light') return false;
-      if (explicit === 'dark') return true;
-      return !window.matchMedia('(prefers-color-scheme: light)').matches;
-    }
-
-    function sync() {
-      var dark = currentIsDark();
-      moon.hidden = !dark;
-      sun.hidden = dark;
-    }
-
     btn.addEventListener('click', function () {
-      var goingDark = !currentIsDark();
-      root.setAttribute('data-theme', goingDark ? 'dark' : 'light');
-      sync();
+      var next = root.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+      root.setAttribute('data-theme', next);
+      try { localStorage.setItem('theme', next); } catch (e) {}
     });
-
-    sync();
   }
 
-  /* ---------------- Time-of-day greeting ---------------- */
-  function initGreeting() {
-    var el = document.getElementById('greeting');
-    if (!el) return;
-    var hour = new Date().getHours();
-    var word = 'Hello';
-    if (hour < 5) word = 'Still up';
-    else if (hour < 12) word = 'Good morning';
-    else if (hour < 17) word = 'Good afternoon';
-    else if (hour < 22) word = 'Good evening';
-    else word = 'Late night';
-    el.textContent = word + ' · Melbourne, VIC';
-  }
+  /* ---------- Nav: blur on scroll, hide on scroll down, mobile menu, active link ---------- */
+  function initNav() {
+    var nav = document.getElementById('nav');
+    var menuBtn = document.getElementById('menu-btn');
+    var links = document.querySelectorAll('.nav-links a');
 
-  /* ---------------- Typewriter role rotator ---------------- */
-  function initTypewriter() {
-    var el = document.getElementById('typewriter');
-    if (!el) return;
-    var roles = ['Data Engineer', 'Data Analyst', 'Machine Learning Engineer', 'Data Scientist'];
-
-    if (reduceMotion) {
-      el.textContent = roles.join(' · ');
-      var caret = document.querySelector('.caret');
-      if (caret) caret.style.display = 'none';
-      return;
+    if (menuBtn) {
+      menuBtn.addEventListener('click', function () {
+        var open = body.classList.toggle('menu-open');
+        menuBtn.setAttribute('aria-expanded', open);
+      });
+      links.forEach(function (a) {
+        a.addEventListener('click', function () {
+          body.classList.remove('menu-open');
+          menuBtn.setAttribute('aria-expanded', 'false');
+        });
+      });
     }
 
-    var roleIndex = 0, charIndex = 0, deleting = false;
-    var typeSpeed = 55, deleteSpeed = 30, holdTime = 1400, betweenTime = 350;
-
-    function tick() {
-      var word = roles[roleIndex];
-      if (!deleting) {
-        charIndex++;
-        el.textContent = word.slice(0, charIndex);
-        if (charIndex === word.length) {
-          deleting = true;
-          setTimeout(tick, holdTime);
-          return;
-        }
-        setTimeout(tick, typeSpeed);
-      } else {
-        charIndex--;
-        el.textContent = word.slice(0, charIndex);
-        if (charIndex === 0) {
-          deleting = false;
-          roleIndex = (roleIndex + 1) % roles.length;
-          setTimeout(tick, betweenTime);
-          return;
-        }
-        setTimeout(tick, deleteSpeed);
+    var lastY = window.scrollY;
+    window.addEventListener('scroll', function () {
+      var y = window.scrollY;
+      nav.classList.toggle('scrolled', y > 20);
+      if (!body.classList.contains('menu-open')) {
+        nav.classList.toggle('hidden', y > lastY && y > 400);
       }
-    }
-    tick();
+      lastY = y;
+    }, { passive: true });
+
+    if (!('IntersectionObserver' in window)) return;
+    var map = {};
+    links.forEach(function (a) { map[a.getAttribute('href').slice(1)] = a; });
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (!e.isIntersecting) return;
+        links.forEach(function (a) { a.classList.remove('active'); });
+        if (map[e.target.id]) map[e.target.id].classList.add('active');
+      });
+    }, { rootMargin: '-45% 0px -50% 0px' });
+    Object.keys(map).forEach(function (id) {
+      var el = document.getElementById(id);
+      if (el) io.observe(el);
+    });
   }
 
-  /* ---------------- Scroll progress bar ---------------- */
-  function initScrollProgress() {
-    var bar = document.getElementById('scrollProgressBar');
-    if (!bar) return;
+  /* ---------- Scroll progress + timeline fill ---------- */
+  function initScrollEffects() {
+    var bar = document.getElementById('scroll-bar');
+    var timeline = document.getElementById('timeline');
+    var fill = document.getElementById('timeline-fill');
+    var ticking = false;
+
     function update() {
-      var h = document.documentElement;
-      var scrollTop = h.scrollTop || document.body.scrollTop;
-      var height = h.scrollHeight - h.clientHeight;
-      var pct = height > 0 ? (scrollTop / height) * 100 : 0;
-      bar.style.width = pct + '%';
+      var max = document.documentElement.scrollHeight - window.innerHeight;
+      if (bar) bar.style.transform = 'scaleX(' + (max > 0 ? window.scrollY / max : 0) + ')';
+
+      if (timeline && fill) {
+        var r = timeline.getBoundingClientRect();
+        var start = window.innerHeight * 0.7;
+        var p = (start - r.top) / r.height;
+        fill.style.transform = 'scaleY(' + Math.max(0, Math.min(1, p)) + ')';
+      }
+      ticking = false;
     }
-    window.addEventListener('scroll', update, { passive: true });
+
+    window.addEventListener('scroll', function () {
+      if (!ticking) { requestAnimationFrame(update); ticking = true; }
+    }, { passive: true });
+    window.addEventListener('resize', update);
     update();
   }
 
-  /* ---------------- Reveal on scroll ---------------- */
-  function initReveal() {
-    var targets = document.querySelectorAll('.bento-card, .entry, .case, .about, .skill-groups > div, .edu-item');
-    targets.forEach(function (t) { t.classList.add('reveal'); });
-
-    if (reduceMotion || !('IntersectionObserver' in window)) {
-      targets.forEach(function (t) { t.classList.add('in-view'); });
-      return;
-    }
+  /* ---------- Helper: run once when element scrolls into view ---------- */
+  function onVisible(els, fn, threshold) {
+    if (!('IntersectionObserver' in window)) { els.forEach(fn); return; }
     var io = new IntersectionObserver(function (entries) {
-      entries.forEach(function (entry) {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('in-view');
-          io.unobserve(entry.target);
-        }
+      entries.forEach(function (e) {
+        if (e.isIntersecting) { fn(e.target); io.unobserve(e.target); }
       });
-    }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
-    targets.forEach(function (t) { io.observe(t); });
+    }, { threshold: threshold || 0.15, rootMargin: '0px 0px -60px 0px' });
+    els.forEach(function (el) { io.observe(el); });
   }
 
-  /* ---------------- Animated stat counters ---------------- */
-  function initCounters() {
-    var counters = document.querySelectorAll('.v[data-target]');
-    if (!counters.length) return;
+  /* ---------- Reveal on scroll ---------- */
+  function initReveal() {
+    var els = Array.prototype.slice.call(document.querySelectorAll('.reveal'));
 
-    function animate(el) {
+    // stagger the experience bullets so they slide in one after another
+    document.querySelectorAll('.tl-body li').forEach(function (li) {
+      var idx = Array.prototype.indexOf.call(li.parentNode.children, li);
+      li.style.transitionDelay = (0.45 + idx * 0.08) + 's';
+    });
+
+    if (reduceMotion) { els.forEach(function (el) { el.classList.add('in', 'shown'); }); return; }
+    onVisible(els, function (el) {
+      // 'shown' stays forever (drives side lines, dots, staggered lines);
+      // 'reveal'/'in' are removed afterwards so hover/tilt transitions feel instant
+      el.classList.add('in', 'shown');
+      var delay = parseFloat(getComputedStyle(el).getPropertyValue('--d')) || 0;
+      setTimeout(function () { el.classList.remove('reveal', 'in'); }, 1200 + delay * 120);
+    }, 0.12);
+  }
+
+  /* ---------- Count-up numbers ---------- */
+  function initCounters() {
+    var els = Array.prototype.slice.call(document.querySelectorAll('.count'));
+    onVisible(els, function (el) {
       var target = parseFloat(el.getAttribute('data-target'));
-      var decimals = parseInt(el.getAttribute('data-decimals') || '0', 10);
-      if (reduceMotion) {
-        el.textContent = format(target, decimals);
-        return;
-      }
-      var duration = 1100;
-      var start = null;
+      if (reduceMotion) { el.textContent = target.toLocaleString('en-AU'); return; }
+      var dur = 1800, start = null;
       function step(ts) {
         if (start === null) start = ts;
-        var progress = Math.min((ts - start) / duration, 1);
-        var eased = 1 - Math.pow(1 - progress, 3);
-        var value = target * eased;
-        el.textContent = format(value, decimals);
-        if (progress < 1) requestAnimationFrame(step);
-        else el.textContent = format(target, decimals);
+        var p = Math.min((ts - start) / dur, 1);
+        var eased = 1 - Math.pow(1 - p, 4);
+        el.textContent = Math.round(target * eased).toLocaleString('en-AU');
+        if (p < 1) requestAnimationFrame(step);
       }
-      requestAnimationFrame(step);
-    }
-
-    function format(value, decimals) {
-      if (decimals > 0) return value.toFixed(decimals);
-      return Math.round(value).toLocaleString('en-AU');
-    }
-
-    if (!('IntersectionObserver' in window)) {
-      counters.forEach(animate);
-      return;
-    }
-    var io = new IntersectionObserver(function (entries) {
-      entries.forEach(function (entry) {
-        if (entry.isIntersecting) {
-          animate(entry.target);
-          io.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.4 });
-    counters.forEach(function (c) { io.observe(c); });
+      setTimeout(function () { requestAnimationFrame(step); }, 900);
+    }, 0.5);
   }
 
-  /* ---------------- Placeholder activity heatmap ---------------- */
-  /* Swap this for a real GitHub calendar once your repo is public:
-     e.g. embed https://ghchart.rshah.org/E8A33D/<your-github-username>
-     or pull the GitHub GraphQL contributions calendar server-side. */
-  function initHeatmap() {
-    var grid = document.getElementById('heatmap');
+  /* ---------- Rotating role word ---------- */
+  function initRoleRotator() {
+    var wrap = document.getElementById('role-rotator');
+    if (!wrap || reduceMotion) return;
+    var words = wrap.querySelectorAll('span');
+    var i = 0;
+
+    // size the box to the widest word so the line doesn't jump
+    // (re-measured once web fonts load, and on resize)
+    function size() {
+      var w = 0;
+      words.forEach(function (s) { w = Math.max(w, s.scrollWidth); });
+      wrap.style.width = Math.min(w, wrap.parentNode.clientWidth) + 'px';
+    }
+    size();
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(size);
+    window.addEventListener('resize', size);
+
+    setInterval(function () {
+      var cur = words[i];
+      i = (i + 1) % words.length;
+      var next = words[i];
+      cur.classList.remove('is-active');
+      cur.classList.add('is-leaving');
+      next.classList.remove('is-leaving');
+      next.classList.add('is-active');
+      setTimeout(function () { cur.classList.remove('is-leaving'); }, 700);
+    }, 2400);
+  }
+
+  /* ---------- Class imbalance waffle chart ---------- */
+  function initImbalanceGrid() {
+    var grid = document.getElementById('imbalance-grid');
     if (!grid) return;
-    var weeks = 24, days = 7;
-    var seed = 42;
-    function rand() {
-      seed = (seed * 9301 + 49297) % 233280;
-      return seed / 233280;
+    var cols = window.innerWidth <= 720 ? 20 : 30;
+    var total = cols * 20;
+    var fraudIndex = Math.floor(total * 0.62) + 7;
+    var frag = document.createDocumentFragment();
+
+    for (var n = 0; n < total; n++) {
+      var cell = document.createElement('i');
+      var row = Math.floor(n / cols), col = n % cols;
+      cell.style.transitionDelay = ((row + col) * 18) + 'ms';
+      if (n === fraudIndex) cell.className = 'fraud';
+      frag.appendChild(cell);
     }
-    for (var w = 0; w < weeks; w++) {
-      for (var d = 0; d < days; d++) {
-        var r = rand();
-        var level = r > 0.82 ? 4 : r > 0.62 ? 3 : r > 0.42 ? 2 : r > 0.24 ? 1 : 0;
-        var cell = document.createElement('div');
-        cell.className = 'cell l' + level;
-        cell.style.background = level === 0 ? 'var(--chip-bg)' :
-          level === 1 ? 'color-mix(in srgb, var(--accent) 25%, var(--chip-bg))' :
-          level === 2 ? 'color-mix(in srgb, var(--accent) 50%, var(--chip-bg))' :
-          level === 3 ? 'color-mix(in srgb, var(--accent) 75%, var(--chip-bg))' : 'var(--accent)';
-        cell.title = 'Week ' + (w + 1) + ' · activity level ' + level;
-        grid.appendChild(cell);
-      }
-    }
+    grid.appendChild(frag);
+    onVisible([grid], function (el) { el.classList.add('in'); }, 0.3);
   }
 
-  /* ---------------- Case study role filters ---------------- */
-  function initRoleFilters() {
-    var buttons = document.querySelectorAll('.role-filters button');
-    var cases = document.querySelectorAll('.case');
-    if (!buttons.length) return;
-    buttons.forEach(function (btn) {
-      btn.addEventListener('click', function () {
-        buttons.forEach(function (b) { b.classList.remove('active'); });
-        btn.classList.add('active');
-        var role = btn.getAttribute('data-role');
-        cases.forEach(function (c) {
-          c.classList.remove('match', 'dim');
-          if (role === 'all') return;
-          var roles = (c.getAttribute('data-roles') || '').split(' ');
-          if (roles.indexOf(role) !== -1) c.classList.add('match');
-          else c.classList.add('dim');
-        });
-        if (role !== 'all') {
-          var first = document.querySelector('.case.match');
-          if (first) first.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'center' });
+  /* ---------- Metric bars ---------- */
+  function initBars() {
+    var bars = Array.prototype.slice.call(document.querySelectorAll('.track i[data-w]'));
+    onVisible(bars, function (el) { el.style.width = el.getAttribute('data-w') + '%'; }, 0.5);
+  }
+
+  /* ---------- Card spotlight + 3D tilt ---------- */
+  function initCardHover() {
+    if (!finePointer) return;
+    document.querySelectorAll('.card, .portrait').forEach(function (card) {
+      // big project cards only get the glow, not tilt (tilt looks odd on wide cards)
+      var tilt = card.classList.contains('tilt') && !reduceMotion;
+      var max = card.classList.contains('portrait') ? 8 : 4;
+
+      card.addEventListener('mousemove', function (e) {
+        var r = card.getBoundingClientRect();
+        var x = (e.clientX - r.left) / r.width;
+        var y = (e.clientY - r.top) / r.height;
+        card.style.setProperty('--mx', (x * 100) + '%');
+        card.style.setProperty('--my', (y * 100) + '%');
+        if (tilt) {
+          card.style.transform = 'perspective(900px) rotateX(' + ((0.5 - y) * max) + 'deg) rotateY(' + ((x - 0.5) * max) + 'deg) translateY(-4px)';
         }
       });
-    });
-  }
-
-  /* ---------------- Command palette (Cmd/Ctrl+K) ---------------- */
-  function initCommandPalette() {
-    var overlay = document.getElementById('cmdkOverlay');
-    var input = document.getElementById('cmdkInput');
-    var list = document.getElementById('cmdkList');
-    var openBtn = document.getElementById('paletteBtn');
-    var wordmarkBtn = document.getElementById('paletteOpenWordmark');
-    if (!overlay || !input || !list) return;
-
-    var commands = [
-      { name: 'Home', hint: 'Section', action: function () { jump('#top'); } },
-      { name: 'Experience', hint: 'Section', action: function () { jump('#work'); } },
-      { name: 'Case studies', hint: 'Section', action: function () { jump('#projects'); } },
-      { name: 'Skills', hint: 'Section', action: function () { jump('#skills'); } },
-      { name: 'Education', hint: 'Section', action: function () { jump('#education'); } },
-      { name: 'Contact', hint: 'Section', action: function () { jump('#contact'); } },
-      { name: 'Email Ganesh', hint: 'mailto', action: function () { window.location.href = 'mailto:gkreddyavula@gmail.com'; } },
-      { name: 'Open LinkedIn', hint: 'External link', action: function () { window.open('https://www.linkedin.com/in/ganeshkumarreddyavula', '_blank', 'noopener'); } },
-      { name: 'Toggle theme', hint: 'Light / dark', action: function () { document.getElementById('themeToggle').click(); } }
-    ];
-
-    var filtered = commands.slice();
-    var activeIndex = 0;
-
-    function jump(hash) {
-      close();
-      var el = document.querySelector(hash);
-      if (el) el.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' });
-    }
-
-    function render() {
-      list.innerHTML = '';
-      if (!filtered.length) {
-        var empty = document.createElement('li');
-        empty.className = 'cmdk-empty';
-        empty.textContent = 'No matches';
-        list.appendChild(empty);
-        return;
-      }
-      filtered.forEach(function (cmd, i) {
-        var li = document.createElement('li');
-        li.className = i === activeIndex ? 'active' : '';
-        var nameSpan = document.createElement('span');
-        nameSpan.className = 'name';
-        nameSpan.textContent = cmd.name;
-        var hintSpan = document.createElement('span');
-        hintSpan.className = 'hint';
-        hintSpan.textContent = cmd.hint;
-        li.appendChild(nameSpan);
-        li.appendChild(hintSpan);
-        li.addEventListener('mouseenter', function () { activeIndex = i; render(); });
-        li.addEventListener('click', function () { cmd.action(); });
-        list.appendChild(li);
+      card.addEventListener('mouseleave', function () {
+        if (tilt) card.style.transform = '';
       });
-    }
-
-    function open() {
-      overlay.hidden = false;
-      input.value = '';
-      filtered = commands.slice();
-      activeIndex = 0;
-      render();
-      setTimeout(function () { input.focus(); }, 0);
-    }
-    function close() {
-      overlay.hidden = true;
-    }
-
-    input.addEventListener('input', function () {
-      var q = input.value.trim().toLowerCase();
-      filtered = commands.filter(function (c) { return c.name.toLowerCase().indexOf(q) !== -1; });
-      activeIndex = 0;
-      render();
-    });
-
-    input.addEventListener('keydown', function (e) {
-      if (e.key === 'ArrowDown') { e.preventDefault(); activeIndex = Math.min(activeIndex + 1, filtered.length - 1); render(); }
-      else if (e.key === 'ArrowUp') { e.preventDefault(); activeIndex = Math.max(activeIndex - 1, 0); render(); }
-      else if (e.key === 'Enter') { e.preventDefault(); if (filtered[activeIndex]) filtered[activeIndex].action(); }
-      else if (e.key === 'Escape') { close(); }
-    });
-
-    overlay.addEventListener('click', function (e) { if (e.target === overlay) close(); });
-    if (openBtn) openBtn.addEventListener('click', open);
-    if (wordmarkBtn) wordmarkBtn.addEventListener('click', open);
-
-    document.addEventListener('keydown', function (e) {
-      var isK = e.key === 'k' || e.key === 'K';
-      if ((e.metaKey || e.ctrlKey) && isK) {
-        e.preventDefault();
-        overlay.hidden ? open() : close();
-      }
     });
   }
 
-  /* ---------------- Custom cursor ring ---------------- */
-  function initCursorRing() {
-    var ring = document.getElementById('cursorRing');
-    var label = document.getElementById('cursorLabel');
-    if (!ring) return;
-    if (!window.matchMedia('(pointer: fine)').matches) return;
+  /* ---------- Magnetic buttons ---------- */
+  function initMagnetic() {
+    if (!finePointer || reduceMotion) return;
+    document.querySelectorAll('.magnetic').forEach(function (el) {
+      el.addEventListener('mousemove', function (e) {
+        var r = el.getBoundingClientRect();
+        var x = e.clientX - r.left - r.width / 2;
+        var y = e.clientY - r.top - r.height / 2;
+        el.style.transform = 'translate(' + x * 0.25 + 'px,' + y * 0.35 + 'px)';
+      });
+      el.addEventListener('mouseleave', function () {
+        el.style.transition = 'transform .6s cubic-bezier(.16,1,.3,1)';
+        el.style.transform = '';
+        setTimeout(function () { el.style.transition = ''; }, 600);
+      });
+    });
+  }
 
-    var x = 0, y = 0, rx = 0, ry = 0;
+  /* ---------- Tools marquee: clone the list once so the loop is seamless ---------- */
+  function initMarquee() {
+    var track = document.getElementById('marquee-track');
+    if (!track) return;
+    Array.prototype.slice.call(track.children).forEach(function (li) {
+      var clone = li.cloneNode(true);
+      clone.setAttribute('aria-hidden', 'true');
+      track.appendChild(clone);
+    });
+  }
+
+  /* ---------- Custom cursor: inverting blob that stretches with speed ---------- */
+  function initCursor() {
+    if (!finePointer || reduceMotion) return;
+    var cursor = document.querySelector('.cursor');
+    if (!cursor) return;
+    var blob = cursor.querySelector('.cursor-blob');
+    var label = cursor.querySelector('.cursor-label');
+
+    function labelFor(el) {
+      if (el.hasAttribute('data-cursor')) return el.getAttribute('data-cursor');
+      if (el.tagName === 'SUMMARY') return el.parentNode.open ? 'Close' : 'Expand';
+      var href = el.getAttribute('href') || '';
+      if (href.indexOf('mailto:') === 0) return 'Email';
+      if (href.indexOf('tel:') === 0) return 'Call';
+      if (href.indexOf('resume') !== -1) return 'CV';
+      if (el.getAttribute('target') === '_blank') return 'Open';
+      return '';
+    }
+
+    var mx = -100, my = -100, x = -100, y = -100, down = false;
+
     window.addEventListener('mousemove', function (e) {
-      x = e.clientX; y = e.clientY;
-      ring.classList.add('live');
-      var el = document.elementFromPoint(x, y);
-      var labelled = el && el.closest && el.closest('[data-cursor]');
-      var interactive = labelled || (el && el.closest && el.closest('a, button'));
-      ring.classList.toggle('hovering', !!interactive);
-      if (label) label.textContent = labelled ? labelled.getAttribute('data-cursor') : '';
+      mx = e.clientX; my = e.clientY;
+      body.classList.add('has-cursor');
+      var t = e.target.closest && e.target.closest('[data-cursor], a, button, summary, .chips span, .stack span, .mq-icon');
+      var text = t ? labelFor(t) : '';
+      body.classList.toggle('cursor-hover', !!t);
+      body.classList.toggle('cursor-labelled', !!text);
+      if (text && label.textContent !== text) label.textContent = text;
     });
-    window.addEventListener('mouseleave', function () { ring.classList.remove('live'); });
+    document.addEventListener('mouseleave', function () { body.classList.remove('has-cursor'); });
+    window.addEventListener('mousedown', function () { down = true; });
+    window.addEventListener('mouseup', function () { down = false; });
 
-    function loop() {
-      rx += (x - rx) * 0.18;
-      ry += (y - ry) * 0.18;
-      ring.style.transform = 'translate(' + rx + 'px,' + ry + 'px) translate(-50%,-50%)';
+    (function loop() {
+      var dx = mx - x, dy = my - y;
+      x += dx * 0.2;
+      y += dy * 0.2;
+      // stretch along the direction of travel, squash across it
+      var speed = Math.min(Math.sqrt(dx * dx + dy * dy) / 120, 0.5);
+      var angle = Math.atan2(dy, dx) * 180 / Math.PI;
+      var hovering = body.classList.contains('cursor-hover');
+      var s = down ? 0.75 : 1;
+      cursor.style.transform = 'translate(' + x + 'px,' + y + 'px)';
+      blob.style.transform = hovering
+        ? 'scale(' + s + ')'
+        : 'rotate(' + angle + 'deg) scale(' + (s * (1 + speed)) + ',' + (s * (1 - speed * 0.5)) + ')';
       requestAnimationFrame(loop);
-    }
-    loop();
+    })();
   }
 
-  /* ---------------- Card spotlight (cursor-tracked glow) ---------------- */
-  function initSpotlight() {
-    var cards = document.querySelectorAll('[data-spot]');
-    if (!cards.length || !window.matchMedia('(pointer: fine)').matches) return;
-    cards.forEach(function (card) {
-      card.addEventListener('mousemove', function (e) {
-        var rect = card.getBoundingClientRect();
-        var mx = ((e.clientX - rect.left) / rect.width) * 100;
-        var my = ((e.clientY - rect.top) / rect.height) * 100;
-        card.style.setProperty('--mx', mx + '%');
-        card.style.setProperty('--my', my + '%');
-      });
+  /* ---------- Copy email ---------- */
+  function initCopyEmail() {
+    var btn = document.getElementById('copy-email');
+    var toast = document.getElementById('toast');
+    if (!btn) return;
+    var timer;
+
+    function show(msg) {
+      toast.textContent = msg;
+      toast.classList.add('show');
+      clearTimeout(timer);
+      timer = setTimeout(function () { toast.classList.remove('show'); }, 2200);
+    }
+
+    btn.addEventListener('click', function () {
+      var email = btn.getAttribute('data-email');
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(email).then(function () { show('Email copied ✓'); }, function () { show(email); });
+      } else {
+        show(email);
+      }
     });
   }
 
-  /* ---------------- Background canvas: transaction network pulse ---------------- */
-  /* Twinkling starfield with the occasional shooting star, in the spirit of
-     the reference sites' dark night-sky hero backgrounds. A small fraction
-     of stars twinkle in the accent color instead of white, as a nod to
-     Ganesh's payments/transaction theme (little "pings" in the sky). */
-  function initBackgroundCanvas() {
+  /* ---------- Background: drifting data points that connect when close ---------- */
+  function initBackground() {
     var canvas = document.getElementById('bg-canvas');
     if (!canvas) return;
     var ctx = canvas.getContext('2d');
-    var stars = [];
-    var shootingStars = [];
-    var w, h, dpr, t = 0;
+    var pts = [], w, h, dpr;
+    var mouse = { x: -9999, y: -9999 };
+    var LINK = 130;
 
-    function styleVar(name) {
-      return getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+    function rgb() {
+      return getComputedStyle(root).getPropertyValue('--particle').trim() || '242,193,78';
     }
 
     function resize() {
       dpr = Math.min(window.devicePixelRatio || 1, 2);
-      w = window.innerWidth;
-      h = window.innerHeight;
-      canvas.width = w * dpr;
-      canvas.height = h * dpr;
-      canvas.style.width = w + 'px';
-      canvas.style.height = h + 'px';
+      w = window.innerWidth; h = window.innerHeight;
+      canvas.width = w * dpr; canvas.height = h * dpr;
+      canvas.style.width = w + 'px'; canvas.style.height = h + 'px';
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-
-      var count = Math.round((w * h) / 6500);
-      stars = [];
+      var count = Math.min(90, Math.round((w * h) / 16000));
+      pts = [];
       for (var i = 0; i < count; i++) {
-        stars.push({
-          x: Math.random() * w,
-          y: Math.random() * h,
-          r: Math.random() * 1.3 + 0.4,
-          phase: Math.random() * Math.PI * 2,
-          speed: 0.4 + Math.random() * 0.8,
-          drift: (Math.random() - 0.5) * 0.05,
-          accent: Math.random() < 0.08
+        pts.push({
+          x: Math.random() * w, y: Math.random() * h,
+          vx: (Math.random() - 0.5) * 0.3, vy: (Math.random() - 0.5) * 0.3,
+          r: Math.random() * 1.6 + 0.6
         });
       }
     }
 
-    function maybeSpawnShootingStar() {
-      if (Math.random() > 0.006 || shootingStars.length > 2) return;
-      var startX = Math.random() * w * 0.6;
-      var startY = Math.random() * h * 0.4;
-      var angle = (Math.random() * 20 + 25) * (Math.PI / 180);
-      shootingStars.push({
-        x: startX, y: startY,
-        vx: Math.cos(angle) * 9,
-        vy: Math.sin(angle) * 9,
-        life: 0, maxLife: 40
-      });
-    }
+    window.addEventListener('mousemove', function (e) { mouse.x = e.clientX; mouse.y = e.clientY; });
 
-    function frame(ts) {
+    function draw() {
       ctx.clearRect(0, 0, w, h);
-      var starRgb = styleVar('--star-color') || '255,255,255';
-      var accentRgb = styleVar('--star-accent') || '232,163,61';
-      t = ts || 0;
+      var c = rgb();
 
-      stars.forEach(function (s) {
-        var twinkle = 0.35 + 0.65 * Math.abs(Math.sin(t * 0.001 * s.speed + s.phase));
-        s.y += s.drift;
-        if (s.y < 0) s.y = h; else if (s.y > h) s.y = 0;
+      for (var i = 0; i < pts.length; i++) {
+        var p = pts[i];
+        if (!reduceMotion) {
+          p.x += p.vx; p.y += p.vy;
+          if (p.x < 0 || p.x > w) p.vx *= -1;
+          if (p.y < 0 || p.y > h) p.vy *= -1;
+
+          var dx = mouse.x - p.x, dy = mouse.y - p.y;
+          var d = Math.sqrt(dx * dx + dy * dy);
+          if (d < 160) { p.x -= dx * 0.008; p.y -= dy * 0.008; }
+        }
+
         ctx.beginPath();
-        ctx.fillStyle = 'rgba(' + (s.accent ? accentRgb : starRgb) + ',' + twinkle.toFixed(2) + ')';
-        ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(' + c + ',.55)';
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
         ctx.fill();
-      });
 
-      maybeSpawnShootingStar();
-      shootingStars = shootingStars.filter(function (s) { return s.life < s.maxLife; });
-      shootingStars.forEach(function (s) {
-        s.life++;
-        s.x += s.vx; s.y += s.vy;
-        var alpha = 1 - s.life / s.maxLife;
-        var tailX = s.x - s.vx * 3.2, tailY = s.y - s.vy * 3.2;
-        var grad = ctx.createLinearGradient(s.x, s.y, tailX, tailY);
-        grad.addColorStop(0, 'rgba(' + starRgb + ',' + alpha + ')');
-        grad.addColorStop(1, 'rgba(' + starRgb + ',0)');
-        ctx.strokeStyle = grad;
-        ctx.lineWidth = 1.4;
-        ctx.beginPath();
-        ctx.moveTo(s.x, s.y);
-        ctx.lineTo(tailX, tailY);
-        ctx.stroke();
-      });
-
-      if (!reduceMotion) requestAnimationFrame(frame);
+        for (var j = i + 1; j < pts.length; j++) {
+          var q = pts[j];
+          var ddx = p.x - q.x, ddy = p.y - q.y;
+          var dist = ddx * ddx + ddy * ddy;
+          if (dist < LINK * LINK) {
+            ctx.strokeStyle = 'rgba(' + c + ',' + (0.14 * (1 - Math.sqrt(dist) / LINK)).toFixed(3) + ')';
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.moveTo(p.x, p.y);
+            ctx.lineTo(q.x, q.y);
+            ctx.stroke();
+          }
+        }
+      }
+      if (!reduceMotion) requestAnimationFrame(draw);
     }
 
     resize();
-    window.addEventListener('resize', resize);
-    frame(0); // always draw at least one frame; loops on its own unless reduced motion is set
+    window.addEventListener('resize', function () { resize(); if (reduceMotion) draw(); });
+    draw();
   }
-
 })();

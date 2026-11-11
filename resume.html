@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Résumé · Ganesh Kumar Reddy</title>
+  <meta name="description" content="Résumé of Ganesh Kumar Reddy, Machine Learning Engineer and Data Engineer in Melbourne.">
+
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23f2c14e'/%3E%3Ctext x='16' y='22' font-family='Georgia,serif' font-style='italic' font-size='17' fill='%231a1405' text-anchor='middle'%3Eg%3C/text%3E%3C/svg%3E">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #0b0b0d;
+      --paper: #ffffff;
+      --ink: #16150f;
+      --muted: #55544e;
+      --faint: #8a8880;
+      --rule: #e6e3db;
+      --accent: #b97c06;
+      --accent-bright: #f2c14e;
+      --sans: 'Plus Jakarta Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
+      --serif: 'Instrument Serif', Georgia, serif;
+      --mono: 'JetBrains Mono', Consolas, monospace;
+      --ease: cubic-bezier(.16, 1, .3, 1);
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; background: var(--bg); color: var(--ink);
+      font-family: var(--sans); font-size: 14px; line-height: 1.55;
+      -webkit-font-smoothing: antialiased;
+      background-image: radial-gradient(700px 400px at 80% 0%, rgba(242, 193, 78, .12), transparent 70%);
+      background-attachment: fixed;
+    }
+    a { color: inherit; }
+    h1, h2, h3, p, ul { margin: 0; }
+    ul { padding: 0; list-style: none; }
+
+    /* ---------- toolbar ---------- */
+    .toolbar {
+      position: sticky; top: 0; z-index: 10;
+      display: flex; justify-content: space-between; align-items: center; gap: 1rem;
+      padding: 1rem max(16px, calc((100% - 820px) / 2));
+      background: rgba(11, 11, 13, .8); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(255, 255, 255, .08);
+    }
+    .back { color: #a3a19a; text-decoration: none; font-weight: 500; font-size: .9rem; transition: color .25s ease; }
+    .back:hover { color: var(--accent-bright); }
+    .print-btn {
+      display: inline-flex; align-items: center; gap: .5rem; cursor: pointer;
+      font: 600 .88rem var(--sans); color: #1a1405; background: var(--accent-bright);
+      border: 0; border-radius: 999px; padding: .65rem 1.2rem;
+      transition: box-shadow .3s ease, transform .3s var(--ease);
+    }
+    .print-btn:hover { box-shadow: 0 10px 30px -8px var(--accent-bright); transform: translateY(-1px); }
+    .print-btn svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+    /* ---------- paper ---------- */
+    .sheet {
+      max-width: 820px; margin: 2.5rem auto 3rem; padding: 3.2rem 3.4rem;
+      background: var(--paper); border-radius: 14px;
+      box-shadow: 0 40px 80px -30px rgba(0, 0, 0, .8);
+      animation: sheet-in 1s var(--ease) both;
+    }
+    @keyframes sheet-in { from { opacity: 0; transform: translateY(40px) scale(.98); } }
+
+    .sheet > * { animation: fade-up .9s var(--ease) both; }
+    .sheet > *:nth-child(1) { animation-delay: .15s; }
+    .sheet > *:nth-child(2) { animation-delay: .25s; }
+    .sheet > *:nth-child(3) { animation-delay: .35s; }
+    .sheet > *:nth-child(4) { animation-delay: .45s; }
+    .sheet > *:nth-child(5) { animation-delay: .55s; }
+    .sheet > *:nth-child(6) { animation-delay: .65s; }
+    .sheet > *:nth-child(7) { animation-delay: .75s; }
+    .sheet > *:nth-child(8) { animation-delay: .85s; }
+    @keyframes fade-up { from { opacity: 0; transform: translateY(14px); } }
+
+    /* header */
+    .head { padding-bottom: 1.4rem; border-bottom: 2px solid var(--ink); }
+    .head h1 { font-size: 2.3rem; font-weight: 800; letter-spacing: -.04em; line-height: 1.05; }
+    .head h1 em { font-family: var(--serif); font-style: italic; font-weight: 400; color: var(--accent); letter-spacing: 0; }
+    .title { margin-top: .4rem; font-weight: 600; font-size: 1rem; color: var(--muted); }
+    .contact { display: flex; flex-wrap: wrap; gap: .3rem 1.2rem; margin-top: .9rem; font-size: .85rem; }
+    .contact a { text-decoration: none; border-bottom: 1px solid var(--rule); transition: border-color .2s ease; }
+    .contact a:hover { border-color: var(--accent); }
+    .rights { margin-top: .7rem; font-size: .78rem; color: var(--faint); font-style: italic; }
+
+    /* sections */
+    section { margin-top: 1.6rem; }
+    h2 {
+      display: flex; align-items: center; gap: .7rem;
+      font-family: var(--mono); font-size: .72rem; font-weight: 500; letter-spacing: .12em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: .8rem;
+    }
+    h2::after { content: ""; flex: 1; height: 1px; background: var(--rule); }
+
+    .summary { color: var(--muted); }
+
+    .skills { display: grid; grid-template-columns: 170px 1fr; gap: .3rem 1rem; }
+    .skills dt { font-weight: 700; }
+    .skills dd { margin: 0; color: var(--muted); }
+
+    .entry + .entry { margin-top: 1.1rem; }
+    .entry-head { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; flex-wrap: wrap; }
+    .entry h3 { font-size: 1.02rem; font-weight: 700; }
+    .entry .when { font-family: var(--mono); font-size: .75rem; color: var(--faint); white-space: nowrap; }
+    .entry .where { color: var(--muted); font-style: italic; font-size: .88rem; margin-top: .1rem; }
+    .entry ul { margin-top: .5rem; display: grid; gap: .3rem; }
+    .entry li { position: relative; padding-left: 1rem; }
+    .entry li::before { content: ""; position: absolute; left: 0; top: .62em; width: 5px; height: 5px; border-radius: 50%; background: var(--accent); }
+    .entry .focus { margin-top: .3rem; font-size: .85rem; color: var(--muted); }
+
+    .certs { display: grid; grid-template-columns: 1fr 1fr; gap: .25rem 1.5rem; }
+    .certs li span { color: var(--faint); }
+
+    .foot { margin-top: 1.8rem; padding-top: 1rem; border-top: 1px solid var(--rule); display: flex; justify-content: space-between; flex-wrap: wrap; gap: .5rem; font-size: .8rem; color: var(--faint); }
+
+    .hint { text-align: center; color: #6d6b66; font-size: .8rem; margin: -1.5rem 0 3rem; padding: 0 16px; }
+
+    @media (max-width: 700px) {
+      .sheet { margin: 1rem 12px 2rem; padding: 1.8rem 1.4rem; }
+      .head h1 { font-size: 1.8rem; }
+      .skills, .certs { grid-template-columns: 1fr; }
+      .skills dd { margin-bottom: .5rem; }
+      .print-btn span { display: none; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .sheet, .sheet > * { animation: none; }
+    }
+
+    /* ---------- print: clean A4 ---------- */
+    @page { size: A4; margin: 12mm 14mm; }
+    @media print {
+      body { background: #fff; font-size: 10pt; }
+      .toolbar, .hint { display: none; }
+      .sheet { max-width: none; margin: 0; padding: 0; box-shadow: none; border-radius: 0; animation: none; }
+      .sheet > * { animation: none; }
+      .contact a { border: 0; }
+      .entry, .skills, h2 { break-inside: avoid; }
+      h2 { break-after: avoid; }
+      * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="toolbar">
+    <a href="index.html" class="back">← Back to portfolio</a>
+    <button class="print-btn" type="button" onclick="window.print()">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg>
+      <span>Save as PDF / Print</span>
+    </button>
+  </div>
+
+  <main class="sheet">
+
+    <header class="head">
+      <h1>Ganesh Kumar <em>Reddy</em></h1>
+      <p class="title">Machine Learning Engineer · Data Engineer</p>
+      <ul class="contact">
+        <li>Melbourne, VIC</li>
+        <li><a href="tel:+61405841870">+61 405 841 870</a></li>
+        <li><a href="mailto:gkreddyavula@gmail.com">gkreddyavula@gmail.com</a></li>
+        <li><a href="https://www.linkedin.com/in/ganeshkumarreddyavula" target="_blank" rel="noopener">linkedin.com/in/ganeshkumarreddyavula</a></li>
+        <li><a href="https://ganesh-portfolio-five-sand.vercel.app/" target="_blank" rel="noopener">Portfolio</a></li>
+      </ul>
+      <p class="rights">
+        Australian Student Visa (Subclass 500): up to 48 hrs/fortnight during study terms, unrestricted during course breaks.
+        Full-time work rights under the Temporary Graduate (485) visa from August 2027.
+      </p>
+    </header>
+
+    <section>
+      <h2>Professional summary</h2>
+      <p class="summary">
+        Data and ML professional with 2+ years of production engineering experience building real-time fintech payment
+        systems, now completing a Master of Data Science at RMIT University. Built payment infrastructure processing
+        100,000+ transactions daily at 7,000+ TPS across Visa, Mastercard, RuPay and UPI, delivered full PCI DSS
+        certification for the platform, and independently built a fraud detection model reaching a 0.95 ROC-AUC on
+        284,807 real transactions. Looking for a Machine Learning Engineer or Data Engineer role that combines
+        production engineering rigour with applied ML.
+      </p>
+    </section>
+
+    <section>
+      <h2>Skills</h2>
+      <dl class="skills">
+        <dt>Languages</dt><dd>Python, Java, SQL, R</dd>
+        <dt>Machine learning</dt><dd>scikit-learn, Random Forest, Gradient Boosting, Logistic Regression, feature engineering, SMOTE, model evaluation (ROC-AUC, precision/recall, F1)</dd>
+        <dt>Data engineering &amp; cloud</dt><dd>AWS (EMR, Hadoop, HDFS), data pipelines, REST APIs, message queues, data warehousing concepts</dd>
+        <dt>Analysis &amp; visualisation</dt><dd>pandas, NumPy, Matplotlib, Seaborn, exploratory data analysis, statistical analysis</dd>
+        <dt>Databases &amp; other</dt><dd>SQL, MongoDB, PCI DSS, data governance, Git</dd>
+      </dl>
+    </section>
+
+    <section>
+      <h2>Professional experience</h2>
+
+      <div class="entry">
+        <div class="entry-head">
+          <h3>Back End Developer</h3>
+          <span class="when">Jul 2023 – Jul 2025</span>
+        </div>
+        <p class="where">Toucan Payments India Pvt. Ltd., Hyderabad, India</p>
+        <ul>
+          <li>Built the core transaction processing logic for an ISO 8583 payment switch handling 7,000+ transactions per second across Visa, Mastercard and RuPay, with sub-second authorisation response times.</li>
+          <li>Designed and shipped UPI payment flows end to end, covering request initiation, real-time fund verification and reconciliation, cutting manual settlement work for the operations team.</li>
+          <li>Built real-time fraud and anomaly detection checks into the authorisation pipeline, covering 100% of card and UPI transaction volume before funds moved.</li>
+          <li>Led PCI DSS certification for the transaction processing stack, including security controls, audit documentation and compliance sign-off.</li>
+          <li>Added fallback and retry logic to the payment routing layer, lifting transaction success rates and cutting failed-payment incidents in production.</li>
+          <li>Built a reusable scheme integration framework for Visa, Mastercard and RuPay so each new network could be onboarded without rebuilding core logic.</li>
+          <li>Delivered 3 separate card network certifications (Visa, Mastercard, RuPay) by coordinating directly with compliance, QA and network operations teams.</li>
+          <li>Implemented event-driven integrations using message queues and REST APIs to support high-throughput, low-latency processing.</li>
+        </ul>
+      </div>
+
+      <div class="entry">
+        <div class="entry-head">
+          <h3>Graduate Trainee</h3>
+          <span class="when">Feb 2023 – May 2023</span>
+        </div>
+        <p class="where">LTIMindtree, India</p>
+        <ul>
+          <li>Completed a structured enterprise Java and Agile delivery training program at a 50,000+ employee IT services firm, before moving directly into production fintech development.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section>
+      <h2>Projects</h2>
+      <div class="entry">
+        <div class="entry-head">
+          <h3>Credit Card Fraud Detection</h3>
+          <span class="when">Personal project</span>
+        </div>
+        <ul>
+          <li>Built an end-to-end fraud detection pipeline in Python (pandas, NumPy, scikit-learn) on 284,807 real credit card transactions, uncovering a 99.83% / 0.17% class imbalance during exploratory analysis.</li>
+          <li>Handled the imbalance with SMOTE and stratified train-test splitting, then compared Logistic Regression, Random Forest and Gradient Boosting using ROC-AUC, precision, recall and F1 rather than accuracy.</li>
+          <!-- Add precision back here once confirmed from the notebook -->
+          <li>Selected Random Forest as the final model: 0.95 ROC-AUC, 87% recall, 0.86 F1-score; packaged as a serialized pipeline for reuse.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section>
+      <h2>Education</h2>
+      <div class="entry">
+        <div class="entry-head">
+          <h3>Master of Data Science</h3>
+          <span class="when">Jul 2025 – Aug 2027 (in progress)</span>
+        </div>
+        <p class="where">RMIT University, Melbourne, Australia</p>
+        <p class="focus">Focus: machine learning, statistical analysis, data visualisation, big data technologies, advanced analytics</p>
+      </div>
+      <div class="entry">
+        <div class="entry-head">
+          <h3>Bachelor of Technology, Electronics and Communication Engineering</h3>
+          <span class="when">Aug 2019 – May 2023</span>
+        </div>
+        <p class="where">Mohan Babu University, India</p>
+      </div>
+    </section>
+
+    <section>
+      <h2>Certifications</h2>
+      <ul class="certs">
+        <li>Machine Learning Using Python <span>· APSSDC</span></li>
+        <li>Python for Data Science and AI <span>· IBM, Coursera</span></li>
+        <li>Cyber Security Internship <span>· Palo Alto Networks</span></li>
+        <li>IGNITE 2023 Internship Program <span>· LTIMindtree</span></li>
+        <li>TCS Career Edge <span>· TCS iON</span></li>
+      </ul>
+    </section>
+
+    <footer class="foot">
+      <span>Languages: English (fluent), Telugu (fluent)</span>
+      <span>References available on request</span>
+    </footer>
+
+  </main>
+
+  <p class="hint">Tip: use "Save as PDF" and choose <b>Save as PDF</b> as the printer for a clean A4 copy.</p>
+
+</body>
+</html>
