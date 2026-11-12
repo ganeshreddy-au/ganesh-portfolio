@@ -1,33 +1,62 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="dark">
+  <meta name="theme-color" content="#10070c">
 
   <title>Ganesh Kumar Reddy · ML &amp; Data Engineer</title>
   <meta name="description" content="Ganesh Kumar Reddy, Machine Learning and Data Engineer in Melbourne. Two years building real-time payment systems at 7,000+ TPS, now completing a Master of Data Science at RMIT University.">
 
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23f2c14e'/%3E%3Ctext x='16' y='22' font-family='Georgia,serif' font-style='italic' font-size='17' fill='%231a1405' text-anchor='middle'%3Eg%3C/text%3E%3C/svg%3E">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23941f4d'/%3E%3Ctext x='16' y='22.5' font-family='Georgia,serif' font-style='italic' font-size='18' fill='%23f6edf0' text-anchor='middle'%3Er%3C/text%3E%3C/svg%3E">
+
+  <!-- Link previews (LinkedIn, WhatsApp, Slack, X) -->
+  <link rel="canonical" href="https://ganesh-portfolio-five-sand.vercel.app/">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Ganesh Kumar Reddy">
+  <meta property="og:title" content="Ganesh Kumar Reddy · ML &amp; Data Engineer">
+  <meta property="og:description" content="Production engineering, applied to machine learning. 7,000+ TPS payment systems at Toucan Payments; Master of Data Science at RMIT, Melbourne.">
+  <meta property="og:url" content="https://ganesh-portfolio-five-sand.vercel.app/">
+  <meta property="og:image" content="https://ganesh-portfolio-five-sand.vercel.app/images/profile.jpg">
+  <meta property="og:image:alt" content="Portrait of Ganesh Kumar Reddy">
+  <meta name="twitter:card" content="summary_large_image">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..600&family=Geist:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="styles.css">
 
-  <script>
-    try {
-      var t = localStorage.getItem('theme');
-      if (t === 'light' || t === 'dark') document.documentElement.setAttribute('data-theme', t);
-    } catch (e) {}
-  </script>
+  <!-- If JavaScript is off, show everything instead of waiting for scroll animations -->
+  <noscript>
+    <style>
+      .reveal, .reveal-load, .tl-body li, .ledger-row, .imbalance-grid i { opacity: 1 !important; transform: none !important; }
+      .hero-title .line > span { transform: none !important; }
+      .edge::after, .tl-dot { transform: none !important; }
+      .cursor { display: none; }
+    </style>
+  </noscript>
 </head>
 
 <body>
 
   <a class="skip-link" href="#about">Skip to content</a>
 
-  <canvas id="bg-canvas" aria-hidden="true"></canvas>
+  <!-- Icon sprite. Brand marks from Simple Icons (CC0); mail/phone/file drawn by hand. -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <symbol id="i-github" viewBox="0 0 24 24"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></symbol>
+    <symbol id="i-linkedin" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></symbol>
+    <symbol id="i-visa" viewBox="0 0 24 24"><path d="M9.112 8.262L5.97 15.758H3.92L2.374 9.775c-.094-.368-.175-.503-.461-.658C1.447 8.864.677 8.627 0 8.479l.046-.217h3.3a.904.904 0 01.894.764l.817 4.338 2.018-5.102zm8.033 5.049c.008-1.979-2.736-2.088-2.717-2.972.006-.269.262-.555.822-.628a3.66 3.66 0 011.913.336l.34-1.59a5.207 5.207 0 00-1.814-.333c-1.917 0-3.266 1.02-3.278 2.479-.012 1.079.963 1.68 1.698 2.04.756.367 1.01.603 1.006.931-.005.504-.602.725-1.16.734-.975.015-1.54-.263-1.992-.473l-.351 1.642c.453.208 1.289.39 2.156.398 2.037 0 3.37-1.006 3.377-2.564m5.061 2.447H24l-1.565-7.496h-1.656a.883.883 0 00-.826.55l-2.909 6.946h2.036l.405-1.12h2.488zm-2.163-2.656l1.02-2.815.588 2.815zm-8.16-4.84l-1.603 7.496H8.34l1.605-7.496z"/></symbol>
+    <symbol id="i-mastercard" viewBox="0 0 24 24"><path d="M11.343 18.031c.058.049.12.098.181.146-1.177.783-2.59 1.238-4.107 1.238C3.32 19.416 0 16.096 0 12c0-4.095 3.32-7.416 7.416-7.416 1.518 0 2.931.456 4.105 1.238-.06.051-.12.098-.165.15C9.6 7.489 8.595 9.688 8.595 12c0 2.311 1.001 4.51 2.748 6.031zm5.241-13.447c-1.52 0-2.931.456-4.105 1.238.06.051.12.098.165.15C14.4 7.489 15.405 9.688 15.405 12c0 2.31-1.001 4.507-2.748 6.031-.058.049-.12.098-.181.146 1.177.783 2.588 1.238 4.107 1.238C20.68 19.416 24 16.096 24 12c0-4.094-3.32-7.416-7.416-7.416zM12 6.174c-.096.075-.189.15-.28.231C10.156 7.764 9.169 9.765 9.169 12c0 2.236.987 4.236 2.551 5.595.09.08.185.158.28.232.096-.074.189-.152.28-.232 1.563-1.359 2.551-3.359 2.551-5.595 0-2.235-.987-4.236-2.551-5.595-.09-.08-.184-.156-.28-.231z"/></symbol>
+    <symbol id="i-coursera" viewBox="0 0 24 24"><path d="M11.374 23.977c-4.183-.21-8.006-2.626-9.959-6.347-2.097-3.858-1.871-8.864.732-12.454C4.748 1.338 9.497-.698 14.281.23c4.583.857 8.351 4.494 9.358 8.911 1.122 4.344-.423 9.173-3.925 12.04-2.289 1.953-5.295 2.956-8.34 2.797zm7.705-8.05a588.737 588.737 0 0 0-3.171-1.887c-.903 1.483-2.885 2.248-4.57 1.665-2.024-.639-3.394-2.987-2.488-5.134.801-2.009 2.79-2.707 4.357-2.464a4.19 4.19 0 0 1 2.623 1.669c1.077-.631 2.128-1.218 3.173-1.855-2.03-3.118-6.151-4.294-9.656-2.754-3.13 1.423-4.89 4.68-4.388 7.919.54 3.598 3.73 6.486 7.716 6.404a7.664 7.664 0 0 0 6.404-3.563z"/></symbol>
+    <symbol id="i-palo" viewBox="0 0 24 24"><path d="m10.278 15.443 1.705 1.705-3.426 3.426-3.427-3.426 8.592-8.591-1.705-1.705 3.426-3.426 3.427 3.426-8.592 8.591zM0 12.017l3.426 3.426 8.591-8.59-3.426-3.427L0 12.017zm11.983 5.13 3.426 3.427L24 11.983l-3.426-3.426-8.591 8.59z"/></symbol>
+    <symbol id="i-tcs" viewBox="0 0 24 24"><path d="M24 16.262c0-1.305-.522-2.174-1.827-3.088l-1.785-1.24c-.033-.022-.06-.045-.092-.068-.629-.473-.91-.912-.91-1.43 0-.696.567-1.13 1.371-1.13 1.022 0 1.503.477 2.111.477.479 0 .805-.326.805-.804 0-.348-.174-.631-.631-.848-.718-.348-1.503-.48-2.35-.48-.892 0-1.676.262-2.241.697a.984.984 0 0 0 0-.001 3.64 3.64 0 0 0-.326.283l-.008.01c-.65.695-1.19 1.714-1.623 3.145l-.501 1.652c-.893 2.912-2.306 4.304-4.504 4.304-2.415 0-3.938-1.675-3.938-4.153v.026-.025c0-2.468 1.509-4.159 3.69-4.174l.03-.002a4.857 4.857 0 0 1 2.089.457c.282.13.522.174.74.174.1 0 .192-.017.279-.041.362-.103.592-.408.592-.83 0-.326-.196-.653-.653-.87-.827-.414-1.894-.653-3.046-.653-.86 0-1.653.152-2.359.436-2.117.851-3.452 2.886-3.452 5.545l.002-.024-.001.024c0 .931.169 1.783.479 2.536-.452.985-1.143 1.509-2.046 1.509-1.087 0-1.804-.63-1.806-2.06V9.477h2.546c.588 0 .979-.348.979-.848s-.39-.848-.98-.848H2.09V5.563c0-.653-.435-1.088-1.044-1.088C.435 4.475 0 4.911 0 5.563v10.285c0 2.393 1.37 3.655 3.7 3.655.486.001.97-.08 1.43-.24h.005a3.49 3.49 0 0 0 1.81-1.514c1.034 1.117 2.565 1.775 4.48 1.775.999 0 1.868-.195 2.65-.607h.003c1.588-.827 2.72-2.502 3.503-5.068l.457-1.5a2.984 2.984 0 0 1-.162-.234c.308.492.785.953 1.468 1.43l1.631 1.13c.244.17.463.34.668.51.289.322.378.67.378 1.078 0 .935-.74 1.566-1.807 1.566-1.022 0-1.893-.522-2.371-.522s-.806.325-.806.804c0 .348.174.63.632.848.631.304 1.653.566 2.567.566 1.153 0 2.111-.348 2.785-.957a1.59 1.59 0 0 0 .156-.161A3.104 3.104 0 0 0 24 16.262z"/></symbol>
+    <symbol id="i-mail" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" d="M3.5 5.5h17a1 1 0 0 1 1 1v11a1 1 0 0 1-1 1h-17a1 1 0 0 1-1-1v-11a1 1 0 0 1 1-1Zm-.5 1 9 7 9-7"/></symbol>
+    <symbol id="i-phone" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" d="M5 3h4l1.8 4.5-2.3 1.6a11 11 0 0 0 6.4 6.4l1.6-2.3L21 15v4a2 2 0 0 1-2 2A17 17 0 0 1 3 5a2 2 0 0 1 2-2Z"/></symbol>
+    <symbol id="i-file" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" d="M14 2.5H6.5a1.5 1.5 0 0 0-1.5 1.5v16a1.5 1.5 0 0 0 1.5 1.5h11A1.5 1.5 0 0 0 19 20V7.5L14 2.5Zm0 0V7.5h5M8.5 12.5h7M8.5 16h7"/></symbol>
+  </svg>
+
   <div class="bg-glow" aria-hidden="true"></div>
   <div class="scroll-progress" aria-hidden="true"><span id="scroll-bar"></span></div>
   <div class="cursor" aria-hidden="true">
@@ -37,24 +66,23 @@
 
   <!-- ============ NAV ============ -->
   <header class="nav" id="nav">
-    <div class="container nav-inner">
-      <a href="#top" class="logo" aria-label="Ganesh Kumar Reddy, back to top">reddy<span>.</span></a>
+    <div class="wrap nav-inner">
+      <a href="#top" class="logo" aria-label="Ganesh Kumar Reddy, back to top">
+        <span class="logo-mark">R</span>
+        <span class="logo-text">Ganesh <em>Reddy</em></span>
+      </a>
 
       <nav class="nav-links" id="nav-links" aria-label="Main">
         <a href="#about"><span>01</span>About</a>
         <a href="#work"><span>02</span>Work</a>
-        <a href="#experience"><span>03</span>Experience</a>
-        <a href="#toolkit"><span>04</span>Toolkit</a>
-        <a href="#education"><span>05</span>Education</a>
+        <a href="#toolkit"><span>03</span>Toolkit</a>
+        <a href="#highlights"><span>04</span>Highlights</a>
+        <a href="#experience"><span>05</span>Experience</a>
         <a href="#contact"><span>06</span>Contact</a>
       </nav>
 
       <div class="nav-actions">
-        <button class="icon-btn" id="theme-toggle" type="button" aria-label="Switch colour theme">
-          <svg class="i-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z"/></svg>
-          <svg class="i-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
-        </button>
-        <a href="resume.html" class="btn btn-small magnetic">Résumé</a>
+        <a href="resume.html" class="btn btn-ghost btn-small magnetic">Resume</a>
         <button class="menu-btn" id="menu-btn" type="button" aria-label="Open menu" aria-expanded="false">
           <span></span><span></span>
         </button>
@@ -65,394 +93,556 @@
   <main id="top">
 
     <!-- ============ HERO ============ -->
-    <section class="hero container">
+    <section class="hero wrap">
+      <div class="hero-visual reveal-load" style="--d:1">
+        <figure class="portrait" data-cursor="Hi!">
+          <span class="portrait-tag">Melbourne · VIC</span>
+          <div class="portrait-photo">
+            <img src="images/profile.jpg" alt="Ganesh Kumar Reddy, smiling, outside a red-brick building in Melbourne" width="900" height="1200" onerror="this.remove()">
+          </div>
+          <div class="portrait-badge">
+            <span class="badge-k">Payment switch</span>
+            <span class="badge-v">7,000+ TPS</span>
+          </div>
+          <figcaption><span>Fig. 01</span> Master of Data Science · RMIT</figcaption>
+        </figure>
+      </div>
+
       <div class="hero-copy">
-        <p class="hero-eyebrow reveal-load" style="--d:0">
+        <p class="eyebrow reveal-load" style="--d:0">
           <span class="live-dot"></span>
-          ML · Data Engineering · Fintech
+          ML Engineer · Data Engineer · Fintech
+        </p>
+
+        <p class="kicker reveal-load" style="--d:1">
+          <span>00</span> Production engineering — applied to data
         </p>
 
         <h1 class="hero-title">
-          <span class="line"><span style="--d:1">Ganesh Kumar Reddy.</span></span>
-          <span class="line"><span style="--d:2" class="muted">Production engineering,</span></span>
-          <span class="line"><span style="--d:3" class="muted">applied to <em>machine learning.</em></span></span>
+          <span class="line"><span style="--d:2">Ganesh Kumar</span></span>
+          <span class="line"><span style="--d:3"><em>Reddy.</em></span></span>
         </h1>
 
-        <p class="hero-role reveal-load" style="--d:4">
+        <p class="hero-lede reveal-load" style="--d:4">
+          I build <strong>reliable data systems</strong> and <strong>machine learning</strong>
+          that holds up in production. Two years on the core of a real-time payment
+          switch at Toucan Payments, now completing a Master of Data Science at RMIT.
           Open to
           <span class="role-rotator" id="role-rotator" aria-live="polite">
-            <span class="is-active">Machine Learning Engineer</span>
+            <span class="is-active">ML Engineer</span>
             <span>Data Engineer</span>
             <span>Data Scientist</span>
             <span>Data Analyst</span>
           </span>
-          roles in Melbourne
+          roles.
         </p>
 
-        <p class="hero-lede reveal-load" style="--d:5">
-          Two years building the core of a real-time payment switch at Toucan
-          Payments: 7,000+ transactions a second, sub-second authorisation, full
-          PCI DSS. Now completing a Master of Data Science at RMIT and bringing
-          that same rigour to models and data pipelines.
-        </p>
-
-        <div class="hero-cta reveal-load" style="--d:6">
-          <a href="#work" class="btn btn-primary magnetic">
-            Explore my work
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-          </a>
-          <a href="resume.html" class="btn btn-ghost magnetic">View résumé</a>
+        <div class="hero-cta reveal-load" style="--d:5">
+          <a href="#work" class="btn btn-primary magnetic">Explore my work</a>
+          <a href="resume.html" class="btn btn-ghost magnetic">View resume <span aria-hidden="true">→</span></a>
         </div>
+
+        <ul class="hero-social reveal-load" style="--d:6">
+          <li><a href="https://github.com/ganeshreddy-au" target="_blank" rel="noopener"><svg class="ic"><use href="#i-github" class="bc-github"/></svg>GitHub</a></li>
+          <li><a href="https://www.linkedin.com/in/ganeshkumarreddyavula" target="_blank" rel="noopener"><svg class="ic"><use href="#i-linkedin" class="bc-linkedin"/></svg>LinkedIn</a></li>
+          <li><a href="mailto:gkreddyavula@gmail.com"><svg class="ic"><use href="#i-mail"/></svg>Email</a></li>
+          <li><a href="resume.html"><svg class="ic"><use href="#i-file"/></svg>Resume</a></li>
+        </ul>
       </div>
 
-      <div class="hero-visual reveal-load" style="--d:3">
-        <figure class="portrait tilt" data-cursor="Hi!">
-          <div class="portrait-photo">
-            <div class="portrait-fallback" aria-hidden="true">GK</div>
-            <img src="images/profile.jpg" alt="Ganesh Kumar Reddy, smiling, outside a red-brick building in Melbourne" width="900" height="1200" onerror="this.remove()">
-          </div>
+      <dl class="hero-stats reveal-load" style="--d:7">
+        <div><dt><span class="count" data-target="2">0</span>+</dt><dd>Years in production fintech</dd></div>
+        <div><dt><span class="count" data-target="7000">0</span>+</dt><dd>Transactions / second</dd></div>
+        <div><dt><span class="count" data-target="100">0</span>k+</dt><dd>Transactions / day</dd></div>
+        <div><dt><span class="count" data-target="3">0</span></dt><dd>Card networks certified</dd></div>
+        <div><dt>0.95</dt><dd>Fraud model ROC-AUC</dd></div>
+      </dl>
 
-          <div class="float-chip chip-a">
-            <span class="chip-k">Peak load</span>
-            <span class="chip-v">7,000+ TPS</span>
-          </div>
-          <div class="float-chip chip-b">
-            <span class="chip-k">Fraud model</span>
-            <span class="chip-v">0.95 AUC</span>
-          </div>
-          <figcaption class="portrait-cap">
-            <span>Fig. 01</span> Melbourne · Master of Data Science, RMIT
-          </figcaption>
-        </figure>
+      <div class="logo-strip reveal-load" style="--d:8">
+        <p class="label small"><span>—</span> Worked &amp; studied at</p>
+        <ul>
+          <li><a href="https://toucanus.com" target="_blank" rel="noopener" title="Toucan Payments"><img src="images/logos/toucan-logo.svg" alt="Toucan Payments" height="22"></a></li>
+          <li><a href="https://www.ltimindtree.com" target="_blank" rel="noopener" title="LTIMindtree"><img src="images/logos/ltimindtree.svg" alt="LTIMindtree" height="20"></a></li>
+          <li><a href="https://www.rmit.edu.au" target="_blank" rel="noopener" title="RMIT University"><img src="images/logos/rmit.svg" alt="RMIT University" height="30"></a></li>
+          <li><a href="https://mbu.asia" target="_blank" rel="noopener" title="Mohan Babu University"><img src="images/logos/mbu.png" alt="" height="28"><span>Mohan Babu<br>University</span></a></li>
+        </ul>
       </div>
 
-      <div class="hero-stats reveal-load" style="--d:7">
-        <div class="stat">
-          <span class="stat-num"><span class="count" data-target="2">0</span>+</span>
-          <span class="stat-label">Years in production fintech</span>
-        </div>
-        <div class="stat">
-          <span class="stat-num"><span class="count" data-target="7000">0</span>+</span>
-          <span class="stat-label">Transactions per second</span>
-        </div>
-        <div class="stat">
-          <span class="stat-num"><span class="count" data-target="100">0</span>k+</span>
-          <span class="stat-label">Transactions every day</span>
-        </div>
-        <div class="stat">
-          <span class="stat-num"><span class="count" data-target="3">0</span></span>
-          <span class="stat-label">Card networks certified</span>
-        </div>
-      </div>
-
-      <a href="#about" class="scroll-cue" aria-label="Scroll to about"><span></span></a>
+      <a href="#about" class="scroll-cue reveal-load" style="--d:9" aria-label="Scroll to About">
+        <span class="scroll-line"></span>Scroll
+      </a>
     </section>
 
-    <!-- ============ MARQUEE ============ -->
+    <!-- ============ TOOLS MARQUEE ============ -->
     <!-- Logos: Devicon (MIT) via jsDelivr. The track is duplicated by script.js for a seamless loop. -->
     <div class="marquee" aria-label="Tools I use">
       <ul class="marquee-track" id="marquee-track">
-        <li><span class="mq-icon"><img src="https://cdn.jsdelivr.net/npm/devicon@2.16.0/icons/python/python-original.svg" alt="" width="26" height="26"></span>Python</li>
-        <li><span class="mq-icon"><img src="https://cdn.jsdelivr.net/npm/devicon@2.16.0/icons/azuresqldatabase/azuresqldatabase-original.svg" alt="" width="26" height="26"></span>SQL</li>
-        <li><span class="mq-icon"><img src="https://cdn.jsdelivr.net/npm/devicon@2.16.0/icons/r/r-original.svg" alt="" width="26" height="26"></span>R</li>
-        <li><span class="mq-icon"><img src="https://cdn.jsdelivr.net/npm/devicon@2.16.0/icons/scikitlearn/scikitlearn-original.svg" alt="" width="26" height="26"></span>scikit-learn</li>
-        <li><span class="mq-icon"><img class="inv" src="https://cdn.jsdelivr.net/npm/devicon@2.16.0/icons/pandas/pandas-original.svg" alt="" width="26" height="26"></span>pandas</li>
-        <li><span class="mq-icon"><img src="https://cdn.jsdelivr.net/npm/devicon@2.16.0/icons/numpy/numpy-original.svg" alt="" width="26" height="26"></span>NumPy</li>
-        <li><span class="mq-icon"><img src="https://cdn.jsdelivr.net/npm/devicon@2.16.0/icons/matplotlib/matplotlib-original.svg" alt="" width="26" height="26"></span>Matplotlib</li>
-        <li><span class="mq-icon"><img class="inv" src="https://cdn.jsdelivr.net/npm/devicon@2.16.0/icons/amazonwebservices/amazonwebservices-original-wordmark.svg" alt="" width="26" height="26"></span>AWS EMR</li>
-        <li><span class="mq-icon"><img src="https://cdn.jsdelivr.net/npm/devicon@2.16.0/icons/hadoop/hadoop-original.svg" alt="" width="26" height="26"></span>Hadoop</li>
-        <li><span class="mq-icon"><img src="https://cdn.jsdelivr.net/npm/devicon@2.16.0/icons/mongodb/mongodb-original.svg" alt="" width="26" height="26"></span>MongoDB</li>
-        <li><span class="mq-icon"><img src="https://cdn.jsdelivr.net/npm/devicon@2.16.0/icons/java/java-original.svg" alt="" width="26" height="26"></span>Java</li>
-        <li><span class="mq-icon"><img src="https://cdn.jsdelivr.net/npm/devicon@2.16.0/icons/git/git-original.svg" alt="" width="26" height="26"></span>Git</li>
+        <li><span class="mq-icon"><img src="https://cdn.jsdelivr.net/npm/devicon@2.16.0/icons/python/python-original.svg" alt="" width="24" height="24"></span>Python</li>
+        <li><span class="mq-icon"><img src="https://cdn.jsdelivr.net/npm/devicon@2.16.0/icons/azuresqldatabase/azuresqldatabase-original.svg" alt="" width="24" height="24"></span>SQL</li>
+        <li><span class="mq-icon"><img src="https://cdn.jsdelivr.net/npm/devicon@2.16.0/icons/r/r-original.svg" alt="" width="24" height="24"></span>R</li>
+        <li><span class="mq-icon"><img src="https://cdn.jsdelivr.net/npm/devicon@2.16.0/icons/scikitlearn/scikitlearn-original.svg" alt="" width="24" height="24"></span>scikit-learn</li>
+        <li><span class="mq-icon"><img class="inv" src="https://cdn.jsdelivr.net/npm/devicon@2.16.0/icons/pandas/pandas-original.svg" alt="" width="24" height="24"></span>pandas</li>
+        <li><span class="mq-icon"><img src="https://cdn.jsdelivr.net/npm/devicon@2.16.0/icons/numpy/numpy-original.svg" alt="" width="24" height="24"></span>NumPy</li>
+        <li><span class="mq-icon"><img src="https://cdn.jsdelivr.net/npm/devicon@2.16.0/icons/matplotlib/matplotlib-original.svg" alt="" width="24" height="24"></span>Matplotlib</li>
+        <li><span class="mq-icon"><img class="inv" src="https://cdn.jsdelivr.net/npm/devicon@2.16.0/icons/amazonwebservices/amazonwebservices-original-wordmark.svg" alt="" width="24" height="24"></span>AWS EMR</li>
+        <li><span class="mq-icon"><img src="https://cdn.jsdelivr.net/npm/devicon@2.16.0/icons/hadoop/hadoop-original.svg" alt="" width="24" height="24"></span>Hadoop</li>
+        <li><span class="mq-icon"><img src="https://cdn.jsdelivr.net/npm/devicon@2.16.0/icons/mongodb/mongodb-original.svg" alt="" width="24" height="24"></span>MongoDB</li>
+        <li><span class="mq-icon"><img src="https://cdn.jsdelivr.net/npm/devicon@2.16.0/icons/java/java-original.svg" alt="" width="24" height="24"></span>Java</li>
+        <li><span class="mq-icon"><img src="https://cdn.jsdelivr.net/npm/devicon@2.16.0/icons/git/git-original.svg" alt="" width="24" height="24"></span>Git</li>
         <li><span class="mq-icon mq-svg"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2.5" y="5" width="19" height="14" rx="2.5"/><path d="M2.5 9.5h19M6 15h4"/></svg></span>ISO 8583</li>
         <li><span class="mq-icon mq-svg"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8h13l-3-3M20 16H7l3 3"/></svg></span>UPI</li>
         <li><span class="mq-icon mq-svg"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 4 6v6c0 4.5 3.4 8.2 8 9 4.6-.8 8-4.5 8-9V6l-8-3Z"/><rect x="9" y="11" width="6" height="5" rx="1"/><path d="M10 11V9.5a2 2 0 0 1 4 0V11"/></svg></span>PCI DSS</li>
       </ul>
     </div>
 
-    <!-- ============ ABOUT ============ -->
-    <section class="section container" id="about">
-      <div class="section-head reveal">
-        <span class="section-num"><b>01</b> About</span>
-        <h2>From payment rails<br>to <em>machine learning.</em></h2>
-      </div>
+    <!-- ============ 01 ABOUT ============ -->
+    <section class="section wrap" id="about">
+      <header class="section-head reveal">
+        <p class="label"><span>01</span> About</p>
+        <h2>Engineering that holds up —<br>from the <em>transaction</em> to the model.</h2>
+      </header>
 
       <div class="about-grid">
         <div class="about-text reveal slide-l">
           <p class="lead">
-            I started on the inside of the financial system: authorising card
-            payments in under a second, keeping fraud out of the pipeline, and
-            getting new payment networks certified and live.
+            I'm a backend engineer turned <strong>machine learning and data engineer</strong>,
+            completing a Master of Data Science at RMIT University in Melbourne.
           </p>
           <p>
-            Every one of those transactions was data, and the fraud checks were
-            only as good as the rules behind them. That pulled me towards machine
-            learning. I'm now completing a Master of Data Science at RMIT to
-            formalise it, and looking for ML or data engineering work where
-            production rigour actually matters.
+            For two years I worked on the inside of the financial system at Toucan
+            Payments: authorising card payments in under a second, building UPI
+            flows end to end, and keeping fraud out of the pipeline for 100% of
+            card and UPI volume. Every one of those transactions was data, and the
+            fraud checks were only as good as the rules behind them. That's what
+            pulled me towards machine learning.
           </p>
-
-          <dl class="facts">
-            <div><dt>Based in</dt><dd>Melbourne, VIC</dd></div>
-            <div><dt>Studying</dt><dd>MDS, RMIT · 2025–27</dd></div>
-            <div><dt>Languages</dt><dd>English, Telugu</dd></div>
-            <div><dt>Work rights</dt><dd>48 hrs/fortnight now · full-time from Aug 2027</dd></div>
-          </dl>
+          <p>
+            Python is where most of my ML work lives; Java and SQL are where I
+            learned to build things that can't go down. I'm looking for roles where
+            those two worlds meet.
+          </p>
         </div>
 
-        <div class="principles">
-          <article class="principle card edge reveal slide-r" style="--d:0">
-            <span class="principle-num">i.</span>
-            <h3>Measure the right thing</h3>
-            <p>When 99.8% of the data is one class, accuracy lies. Pick the metric that matches the cost of being wrong.</p>
-          </article>
-          <article class="principle card edge reveal slide-r" style="--d:1">
-            <span class="principle-num">ii.</span>
-            <h3>Plan for failure</h3>
-            <p>Payments taught me that retries, fallbacks and audit trails aren't extras. Pipelines and models need them too.</p>
-          </article>
-          <article class="principle card edge reveal slide-r" style="--d:2">
-            <span class="principle-num">iii.</span>
-            <h3>Build it once, reuse it</h3>
-            <p>One scheme framework for three card networks. I try to design data work the same way: modular and repeatable.</p>
-          </article>
-        </div>
+        <ol class="principles reveal slide-r">
+          <li>
+            <span class="p-num">1.</span>
+            <div>
+              <h3>Measure the right thing</h3>
+              <p>When 99.8% of the data is one class, <code>accuracy</code> lies. Pick the metric that matches the cost of being wrong.</p>
+            </div>
+          </li>
+          <li>
+            <span class="p-num">2.</span>
+            <div>
+              <h3>Plan for failure</h3>
+              <p>Retries, fallbacks and audit trails aren't extras. <code>idempotent</code> reruns matter as much in pipelines as in payments.</p>
+            </div>
+          </li>
+          <li>
+            <span class="p-num">3.</span>
+            <div>
+              <h3>Build it once, reuse it</h3>
+              <p>One scheme framework onboarded three card networks. Data work should be just as modular and repeatable.</p>
+            </div>
+          </li>
+        </ol>
+      </div>
+
+      <div class="edu-cards">
+        <article class="mini-card card edge reveal slide-l">
+          <span class="org-tile wide"><img src="images/logos/rmit.svg" alt="RMIT University logo"></span>
+          <p class="mini-k">Master of Data Science · In progress</p>
+          <p class="mini-v">RMIT University</p>
+          <p class="mini-s">Jul 2025 – Aug 2027 · Melbourne</p>
+        </article>
+        <article class="mini-card card edge reveal" style="--d:1">
+          <span class="org-tile"><img src="images/logos/mbu.png" alt="Mohan Babu University crest"></span>
+          <p class="mini-k">Bachelor of Technology · ECE</p>
+          <p class="mini-v">Mohan Babu University</p>
+          <p class="mini-s">Aug 2019 – May 2023 · India</p>
+        </article>
+        <article class="mini-card card edge reveal slide-r" style="--d:2">
+          <span class="org-tile"><img src="images/logos/toucan.png" alt="Toucan Payments logo"></span>
+          <p class="mini-k">Industry experience · Toucan Payments</p>
+          <p class="mini-v big">2+ yrs</p>
+          <p class="mini-s">Fintech · PCI DSS environment</p>
+        </article>
+      </div>
+
+      <div class="milestones reveal">
+        <p class="label small"><span>—</span> Milestones</p>
+        <ol>
+          <li><span>2019 – 2023</span>B.Tech, Electronics &amp; Communication Engineering, Mohan Babu University</li>
+          <li><span>Feb 2023</span>Graduate Trainee at LTIMindtree — enterprise Java and Agile delivery</li>
+          <li><span>Jul 2023</span>Joined Toucan Payments as a Back End Developer</li>
+          <li><span>2023 – 2025</span>Led PCI DSS certification; delivered Visa, Mastercard and RuPay certifications</li>
+          <li><span>Jul 2025</span>Moved to Melbourne for the Master of Data Science at RMIT</li>
+          <li class="next"><span>Aug 2027</span>Graduate — full-time work rights on the 485 visa</li>
+        </ol>
       </div>
     </section>
 
-    <!-- ============ WORK ============ -->
-    <section class="section container" id="work">
-      <div class="section-head reveal">
-        <span class="section-num"><b>02</b> Selected work</span>
-        <h2>Systems, not<br><em>side quests.</em></h2>
-      </div>
+    <!-- ============ 02 WORK ============ -->
+    <section class="section wrap" id="work">
+      <header class="section-head reveal">
+        <p class="label"><span>02</span> Selected work</p>
+        <h2>Systems, not <em>side projects.</em></h2>
+        <p class="section-intro">
+          One machine learning project and three production systems — each one had
+          to be correct, measurable and safe to run again.
+        </p>
+      </header>
 
       <div class="projects">
 
         <!-- 01 · Fraud detection -->
-        <article class="pcard card edge reveal slide-l">
-          <div class="pcard-visual">
-            <div class="viz-panel">
-              <div class="viz-head">
-                <span>Class balance</span>
-                <span class="viz-legend"><i class="sw sw-ok"></i>Genuine <i class="sw sw-bad"></i>Fraud</span>
+        <article class="project reveal slide-l">
+          <div class="p-visual card edge" aria-hidden="true">
+            <div class="viz-split">
+              <div class="viz-panel">
+                <div class="viz-head">
+                  <span>Class balance · 284,807 rows</span>
+                  <span class="viz-legend"><i class="sw sw-ok"></i>Genuine <i class="sw sw-bad"></i>Fraud</span>
+                </div>
+                <div class="imbalance-grid" id="imbalance-grid"></div>
+                <p class="viz-note">Each square ≈ 475 transactions. <b>One</b> is fraud.</p>
               </div>
-              <div class="imbalance-grid" id="imbalance-grid" role="img" aria-label="600 squares, each about 475 transactions. Only one is fraud."></div>
-              <p class="viz-note">Each square ≈ 475 transactions. <b>One</b> is fraud.</p>
-            </div>
-            <div class="viz-panel">
-              <div class="viz-head"><span>Random Forest · held-out test set</span></div>
-              <div class="bars">
-                <div class="bar"><span>Recall</span><span class="track"><i data-w="87"></i></span><b>0.87</b></div>
-                <div class="bar"><span>F1</span><span class="track"><i data-w="86"></i></span><b>0.86</b></div>
-                <div class="bar"><span>ROC-AUC</span><span class="track"><i data-w="95"></i></span><b>0.95</b></div>
+              <div class="viz-panel">
+                <div class="viz-head"><span>Random Forest · held-out test</span></div>
+                <div class="bars">
+                  <div class="bar"><span>Recall</span><span class="track"><i data-w="87"></i></span><b>0.87</b></div>
+                  <div class="bar"><span>F1</span><span class="track"><i data-w="86"></i></span><b>0.86</b></div>
+                  <div class="bar"><span>ROC-AUC</span><span class="track"><i data-w="95"></i></span><b>0.95</b></div>
+                </div>
+                <p class="viz-caption">↳ compared against Logistic Regression &amp; Gradient Boosting</p>
               </div>
             </div>
           </div>
 
-          <div class="pcard-body">
-            <p class="pcard-meta"><span class="pnum">01</span> Machine learning · Personal project</p>
-            <h3>Credit card fraud detection</h3>
-            <p>
-              End-to-end fraud pipeline on 284,807 real card transactions, where
-              only 492 are fraud. A model that always says "genuine" scores 99.8%
-              accuracy and catches nothing, so this was about finding the rare
+          <div class="p-body">
+            <p class="p-meta"><span>01</span> ML · Classification · Personal project</p>
+            <h3>Credit Card <em>Fraud Detection</em></h3>
+            <p class="p-desc">
+              An end-to-end fraud pipeline on 284,807 real card transactions, where
+              only 0.17% are fraud. A model that always says "genuine" scores 99.8%
+              accuracy and catches nothing — so the work was about finding the rare
               cases without flooding analysts with false alarms.
             </p>
 
-            <div class="pmetrics">
-              <div><b>284,807</b><span>transactions</span></div>
-              <div><b>0.17%</b><span>fraud rate</span></div>
-              <div><b>0.95</b><span>ROC-AUC</span></div>
-            </div>
+            <dl class="p-metrics">
+              <div><dt>284,807</dt><dd>real transactions modelled</dd></div>
+              <div><dt>0.95</dt><dd>ROC-AUC on held-out data</dd></div>
+              <div><dt>87%</dt><dd>of fraud cases caught (recall)</dd></div>
+            </dl>
 
-            <div class="stack"><span>Python</span><span>pandas</span><span>NumPy</span><span>scikit-learn</span><span>SMOTE</span><span>Seaborn</span></div>
+            <ul class="tags"><li>Python</li><li>pandas</li><li>NumPy</li><li>scikit-learn</li><li>SMOTE</li><li>Seaborn</li></ul>
 
             <details class="case">
-              <summary>Case study <i aria-hidden="true">+</i></summary>
+              <summary><i aria-hidden="true">+</i> Case study</summary>
               <div class="case-body">
                 <h4>What I built</h4>
                 <ul>
-                  <li>EDA surfaced the 99.83 / 0.17 split; stratified train/test split kept that ratio in testing.</li>
+                  <li>EDA surfaced the 99.83 / 0.17 split; a stratified split kept that ratio in testing.</li>
                   <li>Log-transformed and scaled <code>Amount</code> and <code>Time</code>; SMOTE on the training fold only, so no synthetic rows leaked into evaluation.</li>
-                  <li>Compared Logistic Regression, Random Forest and Gradient Boosting on ROC-AUC, precision, recall and F1. Random Forest won and ships as one serialized pipeline.</li>
-                </ul>
-                <h4>Next</h4>
-                <ul>
-                  <li>Tune the decision threshold against a cost model and report PR-AUC, which is more honest than ROC-AUC on data this skewed.</li>
+                  <li>Compared Logistic Regression, Random Forest and Gradient Boosting on ROC-AUC, precision, recall and F1; shipped Random Forest as one serialized pipeline.</li>
                 </ul>
               </div>
             </details>
 
-            <div class="plinks">
+            <p class="p-note">Dataset: ULB Credit Card Fraud (Kaggle) — European cardholders, September 2013, PCA-anonymised features.</p>
+
+            <div class="p-links">
               <!-- Replace with the repo URL once it's public -->
-              <a href="https://github.com/ganeshreddy-au" target="_blank" rel="noopener" class="link-arrow">Repository <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
+              <a href="https://github.com/ganeshreddy-au" target="_blank" rel="noopener" class="link-arrow">Repository <span aria-hidden="true">↗</span></a>
             </div>
           </div>
         </article>
 
         <!-- 02 · Payment switch -->
-        <article class="pcard flip card edge reveal slide-r">
-          <div class="pcard-visual">
-            <div class="viz-panel iso" aria-hidden="true">
-              <div class="viz-head"><span>ISO 8583 · auth request</span><span class="pill pill-live">live</span></div>
-              <ol class="iso-lines">
-                <li><span>MTI</span><b>0100 → 0110</b></li>
-                <li><span>DE 2</span><b>4111 •••• •••• 1111</b></li>
-                <li><span>DE 4</span><b>000000012500</b></li>
-                <li><span>DE 22</span><b>051 · chip</b></li>
-                <li><span>FRAUD</span><b class="ok">checks · pass</b></li>
-                <li><span>DE 39</span><b class="ok">00 · APPROVED</b></li>
-              </ol>
-              <div class="iso-foot">
-                <span class="pill">VISA</span><span class="pill">MASTERCARD</span><span class="pill">RUPAY</span>
-                <span class="iso-time">sub-second auth</span>
-              </div>
+        <article class="project reveal slide-r">
+          <div class="p-visual card edge flip" aria-hidden="true">
+            <div class="state-diagram">
+              <span class="state s-req">auth request<small>MTI 0100</small></span>
+              <span class="state s-proc">processing<small>route · fraud check</small></span>
+              <span class="state s-ok">approved<small>DE39 = 00</small></span>
+              <span class="state s-fail">fallback<small>retry · alt route</small></span>
+              <svg class="state-lines" viewBox="0 0 600 260" preserveAspectRatio="none">
+                <path class="flow-path" d="M150 130 C 220 130, 220 130, 270 130"/>
+                <path class="flow-path" d="M390 130 C 440 130, 450 70, 490 70"/>
+                <path class="flow-path dashed" d="M390 130 C 440 130, 450 190, 490 190"/>
+              </svg>
+              <div class="state-foot">ISO 8583 · VISA · MASTERCARD · RUPAY</div>
             </div>
           </div>
 
-          <div class="pcard-body">
-            <p class="pcard-meta"><span class="pnum">02</span> Fintech · Toucan Payments · 2023–25</p>
-            <h3>Real-time payment switch</h3>
-            <p>
-              Core transaction processing logic for an ISO 8583 switch routing
-              Visa, Mastercard and RuPay authorisations, with fraud and anomaly
-              checks on every transaction before funds moved.
+          <div class="p-body">
+            <p class="p-meta"><span>02</span> <img class="meta-logo" src="images/logos/toucan.png" alt=""> Fintech · Toucan Payments · 2023–25</p>
+            <h3>Real-time <em>Payment Switch</em></h3>
+            <p class="p-desc">
+              Core transaction processing logic for an ISO 8583 switch routing Visa,
+              Mastercard and RuPay authorisations — with fraud and anomaly checks on
+              every transaction before funds moved.
             </p>
 
-            <div class="pmetrics">
-              <div><b>7,000+</b><span>TPS peak</span></div>
-              <div><b>&lt;1s</b><span>authorisation</span></div>
-              <div><b>100%</b><span>volume fraud-checked</span></div>
-            </div>
+            <dl class="p-metrics">
+              <div><dt>7,000+</dt><dd>transactions per second</dd></div>
+              <div><dt>&lt;1s</dt><dd>authorisation response</dd></div>
+              <div><dt>100%</dt><dd>of volume fraud-checked</dd></div>
+            </dl>
 
-            <div class="stack"><span>Java</span><span>ISO 8583</span><span>REST APIs</span><span>Message queues</span><span>PCI DSS</span></div>
+            <ul class="tags"><li>Java</li><li>ISO 8583</li><li>REST APIs</li><li>Message queues</li><li>PCI DSS</li></ul>
 
             <details class="case">
-              <summary>Case study <i aria-hidden="true">+</i></summary>
+              <summary><i aria-hidden="true">+</i> Case study</summary>
               <div class="case-body">
                 <h4>Architecture</h4>
                 <ul>
-                  <li>Event-driven integrations over message queues and REST to keep throughput high and latency low.</li>
+                  <li>Event-driven integrations over message queues and REST for high throughput and low latency.</li>
                   <li>Fallback and retry logic in the routing layer lifted success rates and cut failed-payment incidents.</li>
-                  <li>Led PCI DSS certification for the processing stack: security controls, audit documentation, sign-off.</li>
+                  <li>Led PCI DSS certification for the stack: security controls, audit documentation, sign-off.</li>
                 </ul>
               </div>
             </details>
+            <p class="p-note">Production system at Toucan Payments — employer code, not publicly available.</p>
+
           </div>
         </article>
 
         <!-- 03 · UPI -->
-        <article class="pcard card edge reveal slide-l">
-          <div class="pcard-visual">
-            <div class="viz-panel" aria-hidden="true">
-              <div class="viz-head"><span>UPI payment lifecycle</span></div>
-              <div class="flow">
-                <div class="flow-step"><i>1</i><b>Initiate</b><span>collect / pay request</span></div>
-                <div class="flow-step"><i>2</i><b>Verify</b><span>real-time fund check</span></div>
-                <div class="flow-step"><i>3</i><b>Settle</b><span>debit · credit</span></div>
-                <div class="flow-step"><i>4</i><b>Reconcile</b><span>auto-matched</span></div>
-                <span class="flow-pulse"></span>
-              </div>
-              <div class="recon">
-                <div><span>Matched</span><b class="ok">auto</b></div>
-                <div><span>Manual review</span><b>↓ reduced</b></div>
-              </div>
+        <article class="project reveal slide-l">
+          <div class="p-visual card edge" aria-hidden="true">
+            <div class="flow">
+              <div class="flow-step"><i>1</i><b>Initiate</b><span>collect / pay</span></div>
+              <div class="flow-step"><i>2</i><b>Verify</b><span>real-time funds</span></div>
+              <div class="flow-step"><i>3</i><b>Settle</b><span>debit · credit</span></div>
+              <div class="flow-step"><i>4</i><b>Reconcile</b><span>auto-matched</span></div>
+              <span class="flow-pulse"></span>
+            </div>
+            <div class="ledger">
+              <div class="ledger-row"><span>txn_8f21</span><span>₹ 1,250.00</span><b class="ok">matched</b></div>
+              <div class="ledger-row"><span>txn_8f22</span><span>₹ 499.00</span><b class="ok">matched</b></div>
+              <div class="ledger-row"><span>txn_8f23</span><span>₹ 3,000.00</span><b class="warn">review</b></div>
             </div>
           </div>
 
-          <div class="pcard-body">
-            <p class="pcard-meta"><span class="pnum">03</span> Data flows · Toucan Payments · 2023–25</p>
-            <h3>UPI payments &amp; reconciliation</h3>
-            <p>
-              Designed and shipped UPI flows end to end, from request initiation
-              through real-time fund verification to reconciliation, so the
-              operations team spent less time matching settlements by hand.
+          <div class="p-body">
+            <p class="p-meta"><span>03</span> <img class="meta-logo" src="images/logos/toucan.png" alt=""> Data flows · Toucan Payments · 2023–25</p>
+            <h3>UPI Payments &amp; <em>Reconciliation</em></h3>
+            <p class="p-desc">
+              Designed and shipped UPI flows end to end — request initiation,
+              real-time fund verification and reconciliation — so the operations
+              team spent less time matching settlements by hand.
             </p>
 
-            <div class="pmetrics">
-              <div><b>End-to-end</b><span>ownership</span></div>
-              <div><b>Real-time</b><span>fund verification</span></div>
-              <div><b>Less</b><span>manual settlement</span></div>
-            </div>
+            <dl class="p-metrics">
+              <div><dt class="txt">End-to-end</dt><dd>design to production</dd></div>
+              <div><dt class="txt">Real-time</dt><dd>fund verification</dd></div>
+              <div><dt class="txt">Less</dt><dd>manual settlement work</dd></div>
+            </dl>
 
-            <div class="stack"><span>UPI</span><span>Java</span><span>SQL</span><span>REST APIs</span><span>Reconciliation</span></div>
+            <ul class="tags"><li>UPI</li><li>Java</li><li>SQL</li><li>REST APIs</li><li>Reconciliation</li></ul>
 
             <details class="case">
-              <summary>Case study <i aria-hidden="true">+</i></summary>
+              <summary><i aria-hidden="true">+</i> Case study</summary>
               <div class="case-body">
                 <h4>Why it's data work</h4>
                 <ul>
                   <li>Reconciliation is a data-matching problem: join two ledgers, explain every mismatch, never lose a rupee.</li>
-                  <li>Idempotent processing and clear state transitions so retries never double-count.</li>
-                  <li>The same thinking applies to ETL: validate, reconcile, and make reruns safe.</li>
+                  <li>Idempotent processing and explicit state transitions so retries never double-count.</li>
+                  <li>The same discipline carries straight into ETL: validate, reconcile, make reruns safe.</li>
                 </ul>
               </div>
             </details>
+            <p class="p-note">Production system at Toucan Payments — employer code, not publicly available.</p>
+
           </div>
         </article>
 
         <!-- 04 · Scheme framework -->
-        <article class="pcard flip card edge reveal slide-r">
-          <div class="pcard-visual">
-            <div class="viz-panel" aria-hidden="true">
-              <div class="viz-head"><span>Scheme integration framework</span></div>
-              <div class="hub">
-                <div class="hub-core">shared core<small>auth · routing · fraud · logs</small></div>
-                <div class="hub-nodes">
-                  <span>Visa <i>✓</i></span>
-                  <span>Mastercard <i>✓</i></span>
-                  <span>RuPay <i>✓</i></span>
-                  <span class="hub-new">+ next scheme</span>
-                </div>
+        <article class="project reveal slide-r">
+          <div class="p-visual card edge flip" aria-hidden="true">
+            <div class="card-fan">
+              <div class="pay-card pc-visa">
+                <span class="pc-chip"></span>
+                <svg class="pc-nfc" viewBox="0 0 24 24"><path d="M8 7a7 7 0 0 1 0 10M12 4a11 11 0 0 1 0 16M16 1.5a14 14 0 0 1 0 21" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+                <span class="pc-num">4111 •••• •••• 1111</span>
+                <span class="pc-name">G K REDDY<small>VALID THRU 08/27</small></span>
+                <svg class="pc-brand pc-visa-logo"><use href="#i-visa"/></svg>
+              </div>
+              <div class="pay-card pc-mc">
+                <span class="pc-chip"></span>
+                <svg class="pc-nfc" viewBox="0 0 24 24"><path d="M8 7a7 7 0 0 1 0 10M12 4a11 11 0 0 1 0 16M16 1.5a14 14 0 0 1 0 21" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+                <span class="pc-num">5555 •••• •••• 4444</span>
+                <span class="pc-name">G K REDDY<small>VALID THRU 08/27</small></span>
+                <svg class="pc-brand pc-mc-logo" viewBox="0 0 48 30"><circle cx="17" cy="15" r="12" fill="#EB001B"/><circle cx="31" cy="15" r="12" fill="#F79E1B"/><path fill="#FF5F00" d="M24 5.25A12 12 0 0 1 24 24.75 12 12 0 0 1 24 5.25Z"/></svg>
+              </div>
+              <div class="pay-card pc-rupay">
+                <span class="pc-chip"></span>
+                <svg class="pc-nfc" viewBox="0 0 24 24"><path d="M8 7a7 7 0 0 1 0 10M12 4a11 11 0 0 1 0 16M16 1.5a14 14 0 0 1 0 21" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+                <span class="pc-num">6521 •••• •••• 2048</span>
+                <span class="pc-name">G K REDDY<small>VALID THRU 08/27</small></span>
+                <span class="pc-brand rupay-logo">RuPay<svg viewBox="0 0 16 16"><path d="M1 1.5 8 8l-7 6.5z" fill="#F47920"/><path d="M7 1.5 14 8l-7 6.5z" fill="#00A651"/></svg></span>
               </div>
             </div>
+            <div class="core-plate">shared core · auth · routing · fraud · logs</div>
           </div>
 
-          <div class="pcard-body">
-            <p class="pcard-meta"><span class="pnum">04</span> Platform · Toucan Payments · 2023–25</p>
-            <h3>Reusable card-scheme framework</h3>
-            <p>
-              A shared integration layer so each new card network could be
-              onboarded without rebuilding core logic. Used it to deliver three
-              separate network certifications with compliance, QA and network ops.
+          <div class="p-body">
+            <p class="p-meta"><span>04</span> <img class="meta-logo" src="images/logos/toucan.png" alt=""> Platform · Toucan Payments · 2023–25</p>
+            <h3>Reusable <em>Card-Scheme Framework</em></h3>
+            <p class="p-desc">
+              A shared integration layer so each new card network could be onboarded
+              without rebuilding core logic — used to deliver three separate network
+              certifications with compliance, QA and network operations.
             </p>
 
-            <div class="pmetrics">
-              <div><b>3</b><span>networks certified</span></div>
-              <div><b>1</b><span>shared core</span></div>
-              <div><b>PCI DSS</b><span>certified stack</span></div>
-            </div>
+            <dl class="p-metrics">
+              <div><dt>3</dt><dd>network certifications delivered</dd></div>
+              <div><dt>1</dt><dd>shared core, many adapters</dd></div>
+              <div><dt>PCI DSS</dt><dd>certified stack</dd></div>
+            </dl>
 
-            <div class="stack"><span>Java</span><span>System design</span><span>Visa</span><span>Mastercard</span><span>RuPay</span></div>
+            <ul class="tags"><li>Java</li><li>System design</li><li>Visa</li><li>Mastercard</li><li>RuPay</li></ul>
+            <p class="p-note">Production system at Toucan Payments — employer code, not publicly available.</p>
+
           </div>
         </article>
 
       </div>
     </section>
 
-    <!-- ============ EXPERIENCE ============ -->
-    <section class="section container" id="experience">
-      <div class="section-head reveal">
-        <span class="section-num"><b>03</b> Experience</span>
-        <h2>Where I've<br><em>shipped.</em></h2>
+    <!-- ============ 03 TOOLKIT ============ -->
+    <section class="section wrap" id="toolkit">
+      <header class="section-head reveal">
+        <p class="label"><span>03</span> Toolkit</p>
+        <h2>Tools I reach for, <em>and why.</em></h2>
+        <p class="section-intro">Hover or focus a highlighted skill to see where I've used it.</p>
+      </header>
+
+      <div class="tool-groups">
+        <div class="tool-group wide reveal">
+          <p class="label small"><span>01</span> Languages</p>
+          <p class="words">
+            <button class="w hl" data-used="Fraud detection pipeline, RMIT coursework">Python</button>
+            <button class="w hl" data-used="Reconciliation queries, payment data, analysis">SQL</button>
+            <button class="w hl" data-used="Payment switch, UPI flows, scheme framework">Java</button>
+            <button class="w sm" data-used="Statistics and data analysis at RMIT">R</button>
+          </p>
+          <p class="tool-cap" data-default="Python for ML, Java and SQL for production systems.">Python for ML, Java and SQL for production systems.</p>
+        </div>
+
+        <div class="tool-group reveal slide-l">
+          <p class="label small"><span>02</span> Machine learning</p>
+          <p class="words">
+            <button class="w hl" data-used="Final model for fraud detection">Random Forest</button>
+            <button class="w" data-used="Compared in fraud detection">Gradient Boosting</button>
+            <button class="w" data-used="Baseline in fraud detection">Logistic Regression</button>
+            <button class="w sm hl" data-used="Rebalanced fraud training data">SMOTE</button>
+            <button class="w sm" data-used="Model selection on ROC-AUC, P/R, F1">Evaluation</button>
+          </p>
+          <p class="tool-cap" data-default="scikit-learn, feature engineering, imbalanced data.">scikit-learn, feature engineering, imbalanced data.</p>
+        </div>
+
+        <div class="tool-group reveal slide-r">
+          <p class="label small"><span>03</span> Data engineering &amp; cloud</p>
+          <p class="words">
+            <button class="w hl" data-used="Big data coursework at RMIT">AWS EMR</button>
+            <button class="w" data-used="Distributed processing on EMR">Hadoop</button>
+            <button class="w sm" data-used="Storage for EMR jobs">HDFS</button>
+            <button class="w sm hl" data-used="Event-driven payment integrations">Message queues</button>
+            <button class="w sm" data-used="Payment switch and UPI integrations">REST APIs</button>
+          </p>
+          <p class="tool-cap" data-default="Pipelines, warehousing concepts, event-driven systems.">Pipelines, warehousing concepts, event-driven systems.</p>
+        </div>
+
+        <div class="tool-group reveal slide-l">
+          <p class="label small"><span>04</span> Analysis &amp; visualisation</p>
+          <p class="words">
+            <button class="w hl" data-used="EDA and feature work in fraud detection">pandas</button>
+            <button class="w" data-used="Numerical transforms in fraud detection">NumPy</button>
+            <button class="w sm" data-used="Class balance and metric plots">Matplotlib</button>
+            <button class="w sm" data-used="Correlation and distribution plots">Seaborn</button>
+          </p>
+          <p class="tool-cap" data-default="EDA, statistical analysis, clear charts.">EDA, statistical analysis, clear charts.</p>
+        </div>
+
+        <div class="tool-group reveal slide-r">
+          <p class="label small"><span>05</span> Data &amp; governance</p>
+          <p class="words">
+            <button class="w" data-used="Transaction and reconciliation data">SQL</button>
+            <button class="w" data-used="Document storage">MongoDB</button>
+            <button class="w hl" data-used="Led certification at Toucan Payments">PCI DSS</button>
+            <button class="w sm" data-used="Every project, every day">Git</button>
+          </p>
+          <p class="tool-cap" data-default="Data governance and secure handling by default.">Data governance and secure handling by default.</p>
+        </div>
       </div>
+    </section>
+
+    <!-- ============ 04 HIGHLIGHTS ============ -->
+    <section class="section wrap highlights" id="highlights">
+      <span class="ghost-text" aria-hidden="true">PCI DSS</span>
+
+      <header class="section-head reveal">
+        <p class="label"><span>04</span> Highlights</p>
+        <h2>Proof, <em>on the record.</em></h2>
+      </header>
+
+      <div class="hl-grid">
+        <article class="hl-card card edge reveal slide-l">
+          <p class="mini-k">Compliance · Toucan Payments</p>
+          <h3>Led PCI DSS certification</h3>
+          <p>Security controls, audit documentation and compliance sign-off for the transaction processing stack.</p>
+        </article>
+        <article class="hl-card card edge reveal" style="--d:1">
+          <p class="mini-k">Card networks</p>
+          <h3>Visa · Mastercard · RuPay</h3>
+          <div class="net-logos" aria-hidden="true">
+            <span class="accept"><svg class="net-visa"><use href="#i-visa"/></svg></span>
+            <span class="accept"><svg class="net-mc" viewBox="0 0 48 30"><circle cx="17" cy="15" r="12" fill="#EB001B"/><circle cx="31" cy="15" r="12" fill="#F79E1B"/><path fill="#FF5F00" d="M24 5.25A12 12 0 0 1 24 24.75 12 12 0 0 1 24 5.25Z"/></svg></span>
+            <span class="accept rupay-logo dark">RuPay<svg viewBox="0 0 16 16"><path d="M1 1.5 8 8l-7 6.5z" fill="#F47920"/><path d="M7 1.5 14 8l-7 6.5z" fill="#00A651"/></svg></span>
+          </div>
+          <p>Three separate network certifications, coordinated with compliance, QA and network operations.</p>
+        </article>
+        <article class="hl-card card edge reveal slide-r" style="--d:2">
+          <p class="mini-k">Scale</p>
+          <h3>7,000+ TPS, sub-second</h3>
+          <p>Core processing logic for a switch handling 100,000+ transactions every day.</p>
+        </article>
+      </div>
+
+      <div class="certs reveal">
+        <p class="label small"><span>—</span> Certifications</p>
+        <ul>
+          <li><span class="cert-ic mono">AP</span><span class="cert-name">Machine Learning Using Python</span><span class="cert-org">APSSDC</span></li>
+          <li><span class="cert-ic light-ic"><svg class="bc-coursera"><use href="#i-coursera"/></svg></span><span class="cert-name">Python for Data Science and AI</span><span class="cert-org">IBM · Coursera</span></li>
+          <li><span class="cert-ic light-ic"><svg class="bc-palo"><use href="#i-palo"/></svg></span><span class="cert-name">Cyber Security Internship</span><span class="cert-org">Palo Alto Networks · APSCHE &amp; EduSkills</span></li>
+          <li><span class="cert-ic light"><img src="images/logos/ltimindtree.svg" alt=""></span><span class="cert-name">IGNITE 2023 Internship Program</span><span class="cert-org">LTIMindtree</span></li>
+          <li><span class="cert-ic light-ic"><svg class="bc-tcs"><use href="#i-tcs"/></svg></span><span class="cert-name">Career Edge</span><span class="cert-org">TCS iON</span></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ============ 05 EXPERIENCE ============ -->
+    <section class="section wrap" id="experience">
+      <header class="section-head reveal">
+        <p class="label"><span>05</span> Experience &amp; education</p>
+        <h2>Where I've <em>shipped.</em></h2>
+      </header>
 
       <div class="timeline" id="timeline">
         <div class="timeline-line"><span id="timeline-fill"></span></div>
 
         <article class="tl-item reveal slide-l">
           <div class="tl-dot"></div>
-          <div class="tl-when">
-            <span>Jul 2023 — Jul 2025</span>
-            <span class="tl-badge">2 yrs</span>
-          </div>
+          <p class="tl-when">Jul 2023 – Jul 2025</p>
           <div class="tl-body card edge">
+            <span class="org-tile tl-logo"><img src="images/logos/toucan.png" alt="Toucan Payments logo"></span>
             <h3>Back End Developer</h3>
             <p class="tl-org">Toucan Payments India Pvt. Ltd. · Hyderabad</p>
             <ul>
               <li>Built the core transaction processing logic for an ISO 8583 payment switch handling <b>7,000+ TPS</b> across Visa, Mastercard and RuPay, with sub-second authorisation.</li>
-              <li>Designed and shipped <b>UPI payment flows</b> end to end (initiation, real-time fund verification, reconciliation), cutting manual settlement work.</li>
+              <li>Designed and shipped <b>UPI payment flows</b> end to end — initiation, real-time fund verification, reconciliation — cutting manual settlement work.</li>
               <li>Built real-time <b>fraud and anomaly checks</b> into the authorisation pipeline, covering 100% of card and UPI volume before funds moved.</li>
               <li>Led <b>PCI DSS certification</b> for the processing stack: security controls, audit documentation and compliance sign-off.</li>
               <li>Added fallback and retry logic to payment routing, lifting success rates and cutting failed-payment incidents.</li>
@@ -465,11 +655,9 @@
 
         <article class="tl-item reveal slide-l">
           <div class="tl-dot"></div>
-          <div class="tl-when">
-            <span>Feb 2023 — May 2023</span>
-            <span class="tl-badge">4 mos</span>
-          </div>
+          <p class="tl-when">Feb 2023 – May 2023</p>
           <div class="tl-body card edge">
+            <span class="org-tile wide tl-logo"><img src="images/logos/ltimindtree.svg" alt="LTIMindtree logo"></span>
             <h3>Graduate Trainee</h3>
             <p class="tl-org">LTIMindtree · India</p>
             <ul>
@@ -477,132 +665,42 @@
             </ul>
           </div>
         </article>
-      </div>
-    </section>
 
-    <!-- ============ TOOLKIT ============ -->
-    <section class="section container" id="toolkit">
-      <div class="section-head reveal">
-        <span class="section-num"><b>04</b> Toolkit</span>
-        <h2>What I<br><em>work with.</em></h2>
-      </div>
-
-      <div class="toolkit-grid">
-        <div class="tool card tilt reveal" style="--d:0">
-          <span class="tool-n">01</span>
-          <div class="tool-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m8 7-5 5 5 5M16 7l5 5-5 5M14 4l-4 16"/></svg></div>
-          <h3>Languages</h3>
-          <div class="chips"><span>Python</span><span>SQL</span><span>R</span><span>Java</span></div>
-        </div>
-
-        <div class="tool card tilt reveal" style="--d:1">
-          <span class="tool-n">02</span>
-          <div class="tool-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="5" cy="6" r="2"/><circle cx="5" cy="18" r="2"/><circle cx="19" cy="12" r="2"/><circle cx="12" cy="12" r="2"/><path d="M7 6.5 10.3 11M7 17.5l3.3-4.5M14 12h3"/></svg></div>
-          <h3>Machine learning</h3>
-          <div class="chips"><span>scikit-learn</span><span>Random Forest</span><span>Gradient Boosting</span><span>Logistic Regression</span><span>Feature engineering</span><span>SMOTE</span><span>ROC-AUC · P/R · F1</span></div>
-        </div>
-
-        <div class="tool card tilt reveal" style="--d:2">
-          <span class="tool-n">03</span>
-          <div class="tool-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 18a4 4 0 0 1-.6-8 6 6 0 0 1 11.6 1.5A3.5 3.5 0 0 1 17.5 18H7Z"/></svg></div>
-          <h3>Data engineering &amp; cloud</h3>
-          <div class="chips"><span>AWS EMR</span><span>Hadoop</span><span>HDFS</span><span>Data pipelines</span><span>Data warehousing</span><span>REST APIs</span><span>Message queues</span></div>
-        </div>
-
-        <div class="tool card tilt reveal" style="--d:0">
-          <span class="tool-n">04</span>
-          <div class="tool-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg></div>
-          <h3>Analysis &amp; visualisation</h3>
-          <div class="chips"><span>pandas</span><span>NumPy</span><span>Matplotlib</span><span>Seaborn</span><span>EDA</span><span>Statistical analysis</span></div>
-        </div>
-
-        <div class="tool card tilt reveal" style="--d:1">
-          <span class="tool-n">05</span>
-          <div class="tool-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><ellipse cx="12" cy="5.5" rx="8" ry="2.5"/><path d="M4 5.5v13c0 1.4 3.6 2.5 8 2.5s8-1.1 8-2.5v-13M4 12c0 1.4 3.6 2.5 8 2.5s8-1.1 8-2.5"/></svg></div>
-          <h3>Databases &amp; tools</h3>
-          <div class="chips"><span>SQL</span><span>MongoDB</span><span>Git</span></div>
-        </div>
-
-        <div class="tool card tilt reveal" style="--d:2">
-          <span class="tool-n">06</span>
-          <div class="tool-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 4 6v6c0 4.5 3.4 8.2 8 9 4.6-.8 8-4.5 8-9V6l-8-3Z"/><path d="m9 12 2 2 4-4"/></svg></div>
-          <h3>Governance &amp; security</h3>
-          <div class="chips"><span>PCI DSS</span><span>Data governance</span><span>Fraud controls</span><span>Encryption</span></div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ============ EDUCATION ============ -->
-    <section class="section container" id="education">
-      <div class="section-head reveal">
-        <span class="section-num"><b>05</b> Education</span>
-        <h2>Still<br><em>learning.</em></h2>
-      </div>
-
-      <div class="edu-grid">
-        <article class="edu card edge reveal slide-l">
-          <span class="edu-status">In progress</span>
-          <span class="edu-when">Jul 2025 — Aug 2027</span>
-          <h3>Master of Data Science</h3>
-          <p class="edu-org">RMIT University · Melbourne</p>
-          <p class="edu-focus">Machine learning, statistical analysis, data visualisation, big data technologies and advanced analytics.</p>
-        </article>
-
-        <article class="edu card edge reveal slide-r">
-          <span class="edu-when">Aug 2019 — May 2023</span>
-          <h3>B.Tech, Electronics &amp; Communication</h3>
-          <p class="edu-org">Mohan Babu University · India</p>
-          <p class="edu-focus">Engineering fundamentals, signals and programming.</p>
+        <article class="tl-item reveal slide-l">
+          <div class="tl-dot"></div>
+          <p class="tl-when">Jul 2025 – Aug 2027</p>
+          <div class="tl-body card edge">
+            <span class="org-tile wide tl-logo"><img src="images/logos/rmit.svg" alt="RMIT University logo"></span>
+            <h3>Master of Data Science</h3>
+            <p class="tl-org">RMIT University · Melbourne</p>
+            <ul>
+              <li>Machine learning, statistical analysis, data visualisation, big data technologies and advanced analytics.</li>
+            </ul>
+          </div>
         </article>
       </div>
-
-      <div class="milestones reveal">
-        <h3>Milestones</h3>
-        <ol>
-          <li><span>2019</span>Started B.Tech in ECE</li>
-          <li><span>Feb 2023</span>Graduate Trainee, LTIMindtree</li>
-          <li><span>Jul 2023</span>Joined Toucan Payments</li>
-          <li><span>2023–25</span>3 card networks certified + PCI DSS</li>
-          <li><span>Jul 2025</span>Moved to Melbourne for RMIT</li>
-          <li class="next"><span>Aug 2027</span>Graduate · full-time ready</li>
-        </ol>
-      </div>
-
-      <div class="certs reveal">
-        <h3>Certifications</h3>
-        <ul>
-          <li><span class="cert-name">Machine Learning Using Python</span><span class="cert-org">APSSDC</span></li>
-          <li><span class="cert-name">Python for Data Science and AI</span><span class="cert-org">IBM · Coursera</span></li>
-          <li><span class="cert-name">Cyber Security Internship</span><span class="cert-org">Palo Alto Networks · APSCHE &amp; EduSkills</span></li>
-          <li><span class="cert-name">IGNITE 2023 Internship Program</span><span class="cert-org">LTIMindtree</span></li>
-          <li><span class="cert-name">Career Edge</span><span class="cert-org">TCS iON</span></li>
-        </ul>
-      </div>
     </section>
 
-    <!-- ============ CONTACT ============ -->
-    <section class="section container contact" id="contact">
+    <!-- ============ 06 CONTACT ============ -->
+    <section class="section wrap contact" id="contact">
       <div class="contact-card card reveal">
-        <span class="section-num"><b>06</b> Contact</span>
+        <p class="label"><span>06</span> Contact</p>
         <h2 class="contact-title">Let's <em>talk.</em></h2>
-        <p>
-          Hiring for an ML or data engineering role in Melbourne, or want to
-          chat about payments, fraud or data? My inbox is open.
+        <p class="contact-text">
+          Hiring for an ML or data engineering role in Melbourne, or want to chat
+          about payments, fraud or data? My inbox is open.
         </p>
 
         <div class="contact-actions">
-          <a href="mailto:gkreddyavula@gmail.com" class="btn btn-primary magnetic">gkreddyavula@gmail.com</a>
-          <button class="btn btn-ghost magnetic" id="copy-email" type="button" data-email="gkreddyavula@gmail.com">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a1 1 0 0 1 1-1h9"/></svg>
-            Copy email
-          </button>
+          <a href="mailto:gkreddyavula@gmail.com" class="btn btn-primary magnetic"><svg class="ic"><use href="#i-mail"/></svg>gkreddyavula@gmail.com</a>
+          <button class="btn btn-ghost magnetic" id="copy-email" type="button" data-email="gkreddyavula@gmail.com">Copy email</button>
         </div>
 
         <ul class="socials">
-          <li><a href="https://www.linkedin.com/in/ganeshkumarreddyavula" target="_blank" rel="noopener">LinkedIn ↗</a></li>
-          <li><a href="https://github.com/ganeshreddy-au" target="_blank" rel="noopener">GitHub ↗</a></li>
-          <li><a href="tel:+61405841870">+61 405 841 870</a></li>
-          <li><a href="resume.html">Résumé →</a></li>
+          <li><a href="https://www.linkedin.com/in/ganeshkumarreddyavula" target="_blank" rel="noopener"><svg class="ic"><use href="#i-linkedin" class="bc-linkedin"/></svg>LinkedIn</a></li>
+          <li><a href="https://github.com/ganeshreddy-au" target="_blank" rel="noopener"><svg class="ic"><use href="#i-github" class="bc-github"/></svg>GitHub</a></li>
+          <li><a href="tel:+61405841870"><svg class="ic"><use href="#i-phone"/></svg>+61 405 841 870</a></li>
+          <li><a href="resume.html"><svg class="ic"><use href="#i-file"/></svg>Resume</a></li>
         </ul>
 
         <p class="work-rights">
@@ -614,9 +712,20 @@
 
   </main>
 
-  <footer class="footer container">
-    <span>© <span id="year">2026</span> Ganesh Kumar Reddy · Melbourne, Australia</span>
-    <a href="#top" class="back-top">Back to top ↑</a>
+  <footer class="footer wrap" id="footer">
+    <a href="#top" class="f-name" aria-label="Ganesh Reddy — back to top">
+      <span class="f-first" data-split>Ganesh</span>
+      <em class="f-last" data-split>Reddy</em>
+    </a>
+
+    <p class="f-copy">© <span id="year">2026</span> Ganesh Kumar Reddy · Melbourne, Australia</p>
+
+    <div class="f-right">
+      <a href="https://www.linkedin.com/in/ganeshkumarreddyavula" target="_blank" rel="noopener" class="f-ic" aria-label="LinkedIn"><svg><use href="#i-linkedin" class="bc-linkedin"/></svg></a>
+      <a href="https://github.com/ganeshreddy-au" target="_blank" rel="noopener" class="f-ic" aria-label="GitHub"><svg><use href="#i-github" class="bc-github"/></svg></a>
+      <a href="mailto:gkreddyavula@gmail.com" class="f-ic" aria-label="Email"><svg><use href="#i-mail"/></svg></a>
+      <a href="#top" class="back-top">Back to top ↑</a>
+    </div>
   </footer>
 
   <div class="toast" id="toast" role="status" aria-live="polite"></div>

@@ -1,12 +1,10 @@
 (function () {
   'use strict';
 
-  var root = document.documentElement;
   var body = document.body;
   var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var finePointer = window.matchMedia('(pointer: fine)').matches;
 
-  initTheme();
   initMarquee();
   initNav();
   initScrollEffects();
@@ -19,21 +17,11 @@
   initMagnetic();
   initCursor();
   initCopyEmail();
-  initBackground();
+  initToolkit();
+  initFooterName();
 
   var year = document.getElementById('year');
   if (year) year.textContent = new Date().getFullYear();
-
-  /* ---------- Theme (dark by default, remembers choice) ---------- */
-  function initTheme() {
-    var btn = document.getElementById('theme-toggle');
-    if (!btn) return;
-    btn.addEventListener('click', function () {
-      var next = root.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
-      root.setAttribute('data-theme', next);
-      try { localStorage.setItem('theme', next); } catch (e) {}
-    });
-  }
 
   /* ---------- Nav: blur on scroll, hide on scroll down, mobile menu, active link ---------- */
   function initNav() {
@@ -163,12 +151,11 @@
     var words = wrap.querySelectorAll('span');
     var i = 0;
 
-    // size the box to the widest word so the line doesn't jump
-    // (re-measured once web fonts load, and on resize)
+    // the box animates to the width of the current word, so there's no gap
+    // before "roles." (re-measured once web fonts load, and on resize)
     function size() {
-      var w = 0;
-      words.forEach(function (s) { w = Math.max(w, s.scrollWidth); });
-      wrap.style.width = Math.min(w, wrap.parentNode.clientWidth) + 'px';
+      // each word is max-content wide, so this is the real width of the current word
+      wrap.style.width = Math.ceil(words[i].getBoundingClientRect().width + 1) + 'px';
     }
     size();
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(size);
@@ -182,8 +169,15 @@
       cur.classList.add('is-leaving');
       next.classList.remove('is-leaving');
       next.classList.add('is-active');
-      setTimeout(function () { cur.classList.remove('is-leaving'); }, 700);
-    }, 2400);
+      size();
+      // reset the old word to the bottom instantly, so it never slides back through view
+      setTimeout(function () {
+        cur.style.transition = 'none';
+        cur.classList.remove('is-leaving');
+        void cur.offsetHeight;
+        cur.style.transition = '';
+      }, 750);
+    }, 2600);
   }
 
   /* ---------- Class imbalance waffle chart ---------- */
@@ -340,78 +334,42 @@
     });
   }
 
-  /* ---------- Background: drifting data points that connect when close ---------- */
-  function initBackground() {
-    var canvas = document.getElementById('bg-canvas');
-    if (!canvas) return;
-    var ctx = canvas.getContext('2d');
-    var pts = [], w, h, dpr;
-    var mouse = { x: -9999, y: -9999 };
-    var LINK = 130;
+  /* ---------- Footer name: split into letters that rise in when the footer appears ---------- */
+  function initFooterName() {
+    var footer = document.getElementById('footer');
+    if (!footer) return;
+    var i = 0;
+    footer.querySelectorAll('[data-split]').forEach(function (el) {
+      var text = el.textContent.trim();
+      el.textContent = '';
+      el.setAttribute('aria-hidden', 'true');
+      text.split('').forEach(function (c) {
+        var s = document.createElement('span');
+        s.className = 'ch';
+        s.textContent = c;
+        s.style.setProperty('--i', i++);
+        el.appendChild(s);
+      });
+    });
+    if (reduceMotion) { footer.classList.add('shown'); return; }
+    onVisible([footer], function (el) { el.classList.add('shown'); }, 0.3);
+  }
 
-    function rgb() {
-      return getComputedStyle(root).getPropertyValue('--particle').trim() || '242,193,78';
-    }
-
-    function resize() {
-      dpr = Math.min(window.devicePixelRatio || 1, 2);
-      w = window.innerWidth; h = window.innerHeight;
-      canvas.width = w * dpr; canvas.height = h * dpr;
-      canvas.style.width = w + 'px'; canvas.style.height = h + 'px';
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      var count = Math.min(90, Math.round((w * h) / 16000));
-      pts = [];
-      for (var i = 0; i < count; i++) {
-        pts.push({
-          x: Math.random() * w, y: Math.random() * h,
-          vx: (Math.random() - 0.5) * 0.3, vy: (Math.random() - 0.5) * 0.3,
-          r: Math.random() * 1.6 + 0.6
-        });
-      }
-    }
-
-    window.addEventListener('mousemove', function (e) { mouse.x = e.clientX; mouse.y = e.clientY; });
-
-    function draw() {
-      ctx.clearRect(0, 0, w, h);
-      var c = rgb();
-
-      for (var i = 0; i < pts.length; i++) {
-        var p = pts[i];
-        if (!reduceMotion) {
-          p.x += p.vx; p.y += p.vy;
-          if (p.x < 0 || p.x > w) p.vx *= -1;
-          if (p.y < 0 || p.y > h) p.vy *= -1;
-
-          var dx = mouse.x - p.x, dy = mouse.y - p.y;
-          var d = Math.sqrt(dx * dx + dy * dy);
-          if (d < 160) { p.x -= dx * 0.008; p.y -= dy * 0.008; }
-        }
-
-        ctx.beginPath();
-        ctx.fillStyle = 'rgba(' + c + ',.55)';
-        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-        ctx.fill();
-
-        for (var j = i + 1; j < pts.length; j++) {
-          var q = pts[j];
-          var ddx = p.x - q.x, ddy = p.y - q.y;
-          var dist = ddx * ddx + ddy * ddy;
-          if (dist < LINK * LINK) {
-            ctx.strokeStyle = 'rgba(' + c + ',' + (0.14 * (1 - Math.sqrt(dist) / LINK)).toFixed(3) + ')';
-            ctx.lineWidth = 1;
-            ctx.beginPath();
-            ctx.moveTo(p.x, p.y);
-            ctx.lineTo(q.x, q.y);
-            ctx.stroke();
-          }
-        }
-      }
-      if (!reduceMotion) requestAnimationFrame(draw);
-    }
-
-    resize();
-    window.addEventListener('resize', function () { resize(); if (reduceMotion) draw(); });
-    draw();
+  /* ---------- Toolkit: hover/focus a skill to see where it was used ---------- */
+  function initToolkit() {
+    document.querySelectorAll('.tool-group').forEach(function (group) {
+      var cap = group.querySelector('.tool-cap');
+      if (!cap) return;
+      var def = cap.getAttribute('data-default');
+      function show(w) { cap.textContent = w.getAttribute('data-used'); cap.classList.add('on'); }
+      function reset() { cap.textContent = def; cap.classList.remove('on'); }
+      group.querySelectorAll('.w[data-used]').forEach(function (w) {
+        w.addEventListener('mouseenter', function () { show(w); });
+        w.addEventListener('focus', function () { show(w); });
+        w.addEventListener('click', function () { show(w); });
+        w.addEventListener('mouseleave', reset);
+        w.addEventListener('blur', reset);
+      });
+    });
   }
 })();
